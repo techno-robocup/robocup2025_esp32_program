@@ -7,14 +7,14 @@ void setup()
 {
     Serial.begin(115200);
     Wire.begin(0x08);
-    priMode(LED_PIN, OUTPUT);
+    pinMode(LED_PIN, OUTPUT);
     Wire.onReceive(receiveEvent);
     Wire.onRequest(requestEvent);
 }
 
 void loop()
 {
-    wire.requestFrom(I2C_ADDRESS, 32);
+    wire.reqFrom(I2C_ADDRESS, 32);
 
     int bytecnt = 0;
     while (Wire.available())
