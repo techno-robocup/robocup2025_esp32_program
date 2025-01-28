@@ -22,6 +22,12 @@ void setup() {
 
 
 void loop() {
+  analogWrite(LED_PIN, 0);
+  delay(1000);
+  analogWrite(LED_PIN, 128);
+  delay(1000);
+  analogWrite(LED_PIN, 255);
+  delay(1000);
 }
 
 void receiveEvent(int byteNum) {
