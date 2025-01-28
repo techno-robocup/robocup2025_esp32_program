@@ -9,7 +9,8 @@ inline void debugprintln(Args... args);
 
 #define _DEBUG 1
 
-constexpr std::int8_t LED_PIN = 34;
+constexpr std::int8_t LED_PIN = 32;
+bool temp = false;
 
 void setup() {
   Serial.begin(115200);
@@ -19,25 +20,19 @@ void setup() {
   pinMode(LED_PIN, OUTPUT);
 }
 
+
 void loop() {
-  debugprintln("LOOP");
 }
 
 void receiveEvent(int byteNum) {
-  // debugprint("Received: ", byteNum, "\n");
+  debugprint("Received: ", byteNum, "\n");
 
-  // for (int i = 0; i < byteNum; i++) {
-  //   char c = Wire.read();
-  //   debugprint(c);
-  // }
-  // debugprintln("");
-  
   for (int i = 0; i < byteNum; i++) {
-    digitalWrite(LED_PIN, HIGH);
-    delay(500);
-    digitalWrite(LED_PIN, LOW);
-    delay(500);
+    char c = Wire.read();
+    debugprint(c);
   }
+  debugprintln("");
+  temp = !temp;
 }
 
 void requestEvent() {
