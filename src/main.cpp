@@ -9,39 +9,54 @@ inline void debugprintln(Args... args);
 
 #define _DEBUG 1
 
-constexpr std::int8_t LED_PIN = 32;
-bool temp = false;
+constexpr std::int8_t IN1 = 32;
+constexpr std::int8_t IN2 = 33;
+int motor_speed[2] = {-1, -1};
+bool recieved = false;
 
 void setup() {
   Serial.begin(115200);
   Wire.begin(0x08);
   Wire.onReceive(receiveEvent);
   Wire.onRequest(requestEvent);
-  pinMode(LED_PIN, OUTPUT);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
 }
 
 
 void loop() {
-  analogWrite(LED_PIN, 0);
-  delay(1000);
-  analogWrite(LED_PIN, 128);
-  delay(1000);
-  analogWrite(LED_PIN, 255);
-  delay(1000);
+  if (motor_speed[0] == -1 || motor_speed[1] == -1) {
+    return;
+  }
+  analogWrite(IN1, motor_speed[0]);
+  analogWrite(IN2, motor_speed[1]);
+  debugprintln("RECIEVED!", motor_speed[0], " ", motor_speed[1]);
+  recieved = false;
 }
 
 void receiveEvent(int byteNum) {
-  debugprint("Received: ", byteNum, "\n");
-
-  for (int i = 0; i < byteNum; i++) {
-    char c = Wire.read();
-    debugprint(c);
+  debugprintln(byteNum);
+  if (byteNum < 3) {
+    while(Wire.available()) {
+      Wire.read();
+    }
+    return;
   }
-  debugprintln("");
-  temp = !temp;
+  else {
+    Wire.read();
+    motor_speed[0] = Wire.read();
+    motor_speed[1] = Wire.read();
+  }
+  while(Wire.available()) {
+    Wire.read();
+  }
+  recieved = true;
+  return;
 }
 
 void requestEvent() {
+  if (recieved) Wire.write(0x00); // request raspberrypi to stop sending
+  if (!recieved) Wire.write(0x01); // Allow raspberrypi to send
   return;
 }
 
