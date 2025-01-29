@@ -2,10 +2,8 @@
 #include <Wire.h>
 void receiveEvent(int);
 void requestEvent();
-template<typename... Args>
-inline void debugprint(Args... args);
-template<typename... Args>
-inline void debugprintln(Args... args);
+template <typename... Args> inline void debugprint(Args... args);
+template <typename... Args> inline void debugprintln(Args... args);
 
 #define _DEBUG 1
 
@@ -23,7 +21,6 @@ void setup() {
   pinMode(IN2, OUTPUT);
 }
 
-
 void loop() {
   if (motor_speed[0] == -1 || motor_speed[1] == -1) {
     return;
@@ -37,17 +34,16 @@ void loop() {
 void receiveEvent(int byteNum) {
   debugprintln(byteNum);
   if (byteNum < 3) {
-    while(Wire.available()) {
+    while (Wire.available()) {
       Wire.read();
     }
     return;
-  }
-  else {
+  } else {
     Wire.read();
     motor_speed[0] = Wire.read();
     motor_speed[1] = Wire.read();
   }
-  while(Wire.available()) {
+  while (Wire.available()) {
     Wire.read();
   }
   recieved = true;
@@ -55,25 +51,23 @@ void receiveEvent(int byteNum) {
 }
 
 void requestEvent() {
-  if (recieved) Wire.write(0x00); // request raspberrypi to stop sending
-  if (!recieved) Wire.write(0x01); // Allow raspberrypi to send
+  if (recieved)
+    Wire.write(0x00); // request raspberrypi to stop sending
+  if (!recieved)
+    Wire.write(0x01); // Allow raspberrypi to send
   return;
 }
 
 #ifdef _DEBUG
-template<typename... Args>
-inline void debugprint(Args... args) {
+template <typename... Args> inline void debugprint(Args... args) {
   (Serial.print(args), ...);
 }
 
-template<typename... Args>
-inline void debugprintln(Args... args) {
+template <typename... Args> inline void debugprintln(Args... args) {
   (Serial.print(args), ...);
   Serial.println();
 }
 #else
-template<typename... Args>
-inline void debugprint(Args...) {}
-template<typename... Args>
-inline void debugprintln(Args...) {}
+template <typename... Args> inline void debugprint(Args...) {}
+template <typename... Args> inline void debugprintln(Args...) {}
 #endif
