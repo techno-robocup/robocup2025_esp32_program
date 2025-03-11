@@ -16,8 +16,8 @@ void robot::motorio::motor_brake() {
 void robot::motorio::set_speed(int _speed) {
   _speed += speed_variations;
   speed = speed_array[_speed];
-  Serial.println("set ");
-  Serial.println(speed);
+  // Serial.println("set ");
+  // Serial.println(speed);
   return;
 }
 
@@ -29,13 +29,13 @@ void robot::motorio::run_speed() {
   if (speed < 0) {
     analogWrite(IN1_PIN, 0);
     analogWrite(IN2_PIN, -speed);
-    Serial.print(0, -speed);
-    Serial.println();
+    // Serial.print(0, -speed);
+    // Serial.println();
   }
   else {
     analogWrite(IN1_PIN, speed);
     analogWrite(IN2_PIN, 0);
-    Serial.print(speed, 0);
-    Serial.println();
+    // Serial.print(speed, 0);
+    // Serial.println();
   }
 }
