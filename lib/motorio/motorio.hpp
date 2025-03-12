@@ -13,7 +13,7 @@ namespace robot {
     std::int8_t IN1_PIN, IN2_PIN;
     int speed;
     int *speed_array;
-    std::uint8_t speed_variations = 10;
+    std::uint8_t speed_variations = 20;
   };
 }
 #endif
