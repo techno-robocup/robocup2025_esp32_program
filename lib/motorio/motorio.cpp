@@ -16,8 +16,8 @@ void robot::motorio::motor_brake() {
 void robot::motorio::set_speed(int _speed) {
   _speed += speed_variations;
   speed = speed_array[_speed];
-  // Serial.println("set ");
-  // Serial.println(speed);
+  Serial.println("set ");
+  Serial.println(speed);
   return;
 }
 

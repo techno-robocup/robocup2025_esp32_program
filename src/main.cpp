@@ -59,6 +59,8 @@ void receiveEvent(int byteNum)
     while (Wire.available())
     {
       Wire.read();
+      // debugprint(Wire.read(), " ");
+      // debugprintln();
     }
     return;
   }
