@@ -7,12 +7,6 @@ robot::motorio::motorio(const std::int8_t &_IN1_PIN, const std::int8_t &_IN2_PIN
 }
 
 
-void robot::motorio::motor_brake() {
-  analogWrite(IN1_PIN, 255);
-  analogWrite(IN2_PIN, 255);
-  return;
-}
-
 void robot::motorio::set_speed(int _speed) {
   speed = _speed;
   Serial.println("set ");
@@ -21,20 +15,17 @@ void robot::motorio::set_speed(int _speed) {
 }
 
 void robot::motorio::run_speed() {
-  if (speed == 0) {
-    motor_brake();
-    return;
-  }
   if (speed < 0) {
     analogWrite(IN1_PIN, 0);
     analogWrite(IN2_PIN, -speed);
-    Serial.print(0, -speed);
-    Serial.println();
   }
-  else {
+  else if (speed > 0) {
     analogWrite(IN1_PIN, speed);
     analogWrite(IN2_PIN, 0);
-    Serial.print(speed, 0);
-    Serial.println();
   }
+  else {
+    analogWrite(IN1_PIN, 255);
+    analogWrite(IN2_PIN, 255);
+  }
+  return;
 }

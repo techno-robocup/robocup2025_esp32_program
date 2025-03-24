@@ -17,16 +17,6 @@ constexpr std::int8_t RIN2 = 27;
 int motor_speed[2] = {-1, -1};
 bool recieved = false;
 int cmd = 0x10;
-int left_speed_array[41] = {
-    200, 190, 180, 170, 160, 150, 140, 130, 120, 110, 100, 90, 80, 70, 60, 50, 40, 30, 20, 10,
-    0,
-    10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200
-  },
-  right_speed_array[41] = {
-    200, 190, 180, 170, 160, 150, 140, 130, 120, 110, 100, 90, 80, 70, 60, 50, 40, 30, 20, 10,
-    0,
-    10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200
-  };
 robot::motorio left_motor(LIN1, LIN2);
 robot::motorio right_motor(RIN1, RIN2);
 void setup()
@@ -35,8 +25,10 @@ void setup()
   Wire.begin(0x08);
   Wire.onReceive(receiveEvent);
   Wire.onRequest(requestEvent);
-  // pinMode(IN1, OUTPUT);
-  // pinMode(IN2, OUTPUT);
+  pinMode(LIN1, OUTPUT);
+  pinMode(LIN2, OUTPUT);
+  pinMode(RIN1, OUTPUT);
+  pinMode(RIN2, OUTPUT);
 }
 
 void loop()
@@ -51,16 +43,16 @@ void loop()
   right_motor.run_speed();
 }
 
+
 void receiveEvent(int byteNum)
 {
+  std::int8_t a,b;
   debugprintln(byteNum);
-  if (byteNum < 3)
+  if (byteNum < 5)
   {
     while (Wire.available())
     {
       Wire.read();
-      // debugprint(Wire.read(), " ");
-      // debugprintln();
     }
     return;
   }
@@ -69,8 +61,18 @@ void receiveEvent(int byteNum)
     cmd = Wire.read();
     if (cmd == 0x00)
     {
-      motor_speed[0] = Wire.read();
-      motor_speed[1] = Wire.read();
+      a = Wire.read();
+      if(a == 0){
+        motor_speed[0] = Wire.read();
+      }if(a == 1){
+        motor_speed[0] = -1 * Wire.read();
+      }
+      b = Wire.read();
+      if(b == 0){
+        motor_speed[1] = Wire.read();
+      }if(b == 1){
+        motor_speed[1] = -1 * Wire.read();
+      }
     }
     else
     {
