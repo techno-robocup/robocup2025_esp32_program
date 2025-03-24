@@ -46,6 +46,7 @@ void loop()
 
 void receiveEvent(int byteNum)
 {
+  std::int8_t a,b;
   debugprintln(byteNum);
   if (byteNum < 5)
   {
@@ -55,7 +56,6 @@ void receiveEvent(int byteNum)
     }
     return;
   }
-  std::int8_t a,b;
   else
   {
     cmd = Wire.read();
