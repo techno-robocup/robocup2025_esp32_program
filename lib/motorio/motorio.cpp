@@ -29,13 +29,13 @@ void robot::motorio::run_speed() {
   if (speed < 0) {
     analogWrite(IN1_PIN, 0);
     analogWrite(IN2_PIN, -speed);
-    // Serial.print(0, -speed);
-    // Serial.println();
+    Serial.print(0, -speed);
+    Serial.println();
   }
   else {
     analogWrite(IN1_PIN, speed);
     analogWrite(IN2_PIN, 0);
-    // Serial.print(speed, 0);
-    // Serial.println();
+    Serial.print(speed, 0);
+    Serial.println();
   }
 }
