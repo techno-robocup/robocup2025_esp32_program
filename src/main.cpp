@@ -42,13 +42,11 @@ void loop()
 void receiveEvent(int byteNum)
 {
   debugprintln(byteNum);
-  if (byteNum < 3)
+  if (byteNum < 5)
   {
     while (Wire.available())
     {
       Wire.read();
-      // debugprint(Wire.read(), " ");
-      // debugprintln();
     }
     return;
   }
@@ -57,8 +55,8 @@ void receiveEvent(int byteNum)
     cmd = Wire.read();
     if (cmd == 0x00)
     {
-      motor_speed[0] = Wire.read();
-      motor_speed[1] = Wire.read();
+      motor_speed[0] = Wire.read() * wire.read();
+      motor_speed[1] = Wire.read() * wire.read();
     }
     else
     {
