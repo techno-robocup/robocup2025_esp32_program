@@ -55,8 +55,18 @@ void receiveEvent(int byteNum)
     cmd = Wire.read();
     if (cmd == 0x00)
     {
-      motor_speed[0] = Wire.read() * wire.read();
-      motor_speed[1] = Wire.read() * wire.read();
+      a = Wire.read();
+      if(a == 0){
+        motor_speed[0] = Wire.read();
+      }if(a == 1){
+        motor_speed[0] = -1 * Wire.read();
+      }
+      b = Wire.read();
+      if(b == 0){
+        motor_speed[1] = Wire.read();
+      }if(b == 1){
+        motor_speed[1] = -1 * Wire.read();
+      }
     }
     else
     {
