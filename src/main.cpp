@@ -27,8 +27,8 @@ int left_speed_array[41] = {
     0,
     10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200
   };
-robot::motorio left_motor(LIN1, LIN2, left_speed_array);
-robot::motorio right_motor(RIN1, RIN2, right_speed_array);
+robot::motorio left_motor(LIN1, LIN2);
+robot::motorio right_motor(RIN1, RIN2);
 void setup()
 {
   Serial.begin(115200);
@@ -54,7 +54,7 @@ void loop()
 void receiveEvent(int byteNum)
 {
   debugprintln(byteNum);
-  if (byteNum < 5)
+  if (byteNum < 3)
   {
     while (Wire.available())
     {
@@ -69,18 +69,8 @@ void receiveEvent(int byteNum)
     cmd = Wire.read();
     if (cmd == 0x00)
     {
-      int posneg = Wire.read();
-      int recievednum = Wire.read();
-      if (posneg == 0x01)
-        motor_speed[0] = -recievednum;
-      else
-        motor_speed[0] = recievednum;
-      posneg = Wire.read();
-      recievednum = Wire.read();
-      if (posneg == 0x01)
-        motor_speed[1] = -recievednum;
-      else
-        motor_speed[1] = recievednum;
+      motor_speed[0] = Wire.read();
+      motor_speed[1] = Wire.read();
     }
     else
     {

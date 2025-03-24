@@ -1,5 +1,5 @@
 #include <motorio.hpp>
-robot::motorio::motorio(const std::int8_t &_IN1_PIN, const std::int8_t &_IN2_PIN, int *_speed_array) : IN1_PIN(_IN1_PIN), IN2_PIN(_IN2_PIN), speed_array(_speed_array) {
+robot::motorio::motorio(const std::int8_t &_IN1_PIN, const std::int8_t &_IN2_PIN) : IN1_PIN(_IN1_PIN), IN2_PIN(_IN2_PIN) {
   pinMode(IN1_PIN, OUTPUT);
   pinMode(IN2_PIN, OUTPUT);
   analogWrite(IN1_PIN, 255);
@@ -14,8 +14,7 @@ void robot::motorio::motor_brake() {
 }
 
 void robot::motorio::set_speed(int _speed) {
-  _speed += speed_variations;
-  speed = speed_array[_speed];
+  speed = _speed;
   Serial.println("set ");
   Serial.println(speed);
   return;
