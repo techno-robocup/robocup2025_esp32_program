@@ -26,6 +26,10 @@ void setup()
   Wire.begin(0x08);
   Wire.onReceive(receiveEvent);
   Wire.onRequest(requestEvent);
+  pinMode(LIN1, OUTPUT);
+  pinMode(LIN2, OUTPUT);
+  pinMode(RIN1, OUTPUT);
+  pinMode(RIN2, OUTPUT);
 }
 
 void loop()
