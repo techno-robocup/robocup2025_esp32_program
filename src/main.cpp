@@ -14,6 +14,7 @@ constexpr std::int8_t LIN1 = 32;
 constexpr std::int8_t LIN2 = 33;
 constexpr std::int8_t RIN1 = 26;
 constexpr std::int8_t RIN2 = 27;
+std::int8_t a,b;
 int motor_speed[2] = {-1, -1};
 bool recieved = false;
 int cmd = 0x10;
@@ -55,13 +56,13 @@ void receiveEvent(int byteNum)
     cmd = Wire.read();
     if (cmd == 0x00)
     {
-      std::int8t a = Wire.read();
+      a = Wire.read();
       if(a == 0){
         motor_speed[0] = Wire.read();
       }if(a == 1){
         motor_speed[0] = -1 * Wire.read();
       }
-      std::int8t b = Wire.read();
+      b = Wire.read();
       if(b == 0){
         motor_speed[1] = Wire.read();
       }if(b == 1){
