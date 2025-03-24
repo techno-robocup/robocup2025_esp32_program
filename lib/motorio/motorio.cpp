@@ -7,12 +7,6 @@ robot::motorio::motorio(const std::int8_t &_IN1_PIN, const std::int8_t &_IN2_PIN
 }
 
 
-void robot::motorio::motor_brake() {
-  analogWrite(IN1_PIN, 255);
-  analogWrite(IN2_PIN, 255);
-  return;
-}
-
 void robot::motorio::set_speed(int _speed) {
   speed = _speed;
   Serial.println("set ");
