@@ -14,7 +14,6 @@ constexpr std::int8_t LIN1 = 32;
 constexpr std::int8_t LIN2 = 33;
 constexpr std::int8_t RIN1 = 26;
 constexpr std::int8_t RIN2 = 27;
-std::int8_t a,b;
 int motor_speed[2] = {-1, -1};
 bool recieved = false;
 int cmd = 0x10;
@@ -44,6 +43,7 @@ void loop()
   right_motor.run_speed();
 }
 
+
 void receiveEvent(int byteNum)
 {
   debugprintln(byteNum);
@@ -55,6 +55,7 @@ void receiveEvent(int byteNum)
     }
     return;
   }
+  std::int8_t a,b;
   else
   {
     cmd = Wire.read();
