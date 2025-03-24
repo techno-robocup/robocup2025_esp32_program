@@ -55,13 +55,13 @@ void receiveEvent(int byteNum)
     cmd = Wire.read();
     if (cmd == 0x00)
     {
-      a = Wire.read();
+      std::int8t a = Wire.read();
       if(a == 0){
         motor_speed[0] = Wire.read();
       }if(a == 1){
         motor_speed[0] = -1 * Wire.read();
       }
-      b = Wire.read();
+      std::int8t b = Wire.read();
       if(b == 0){
         motor_speed[1] = Wire.read();
       }if(b == 1){
