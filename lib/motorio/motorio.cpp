@@ -18,14 +18,17 @@ void robot::motorio::run_speed() {
   if (speed < 0) {
     analogWrite(IN1_PIN, 0);
     analogWrite(IN2_PIN, -speed);
+    return;
   }
   else if (speed > 0) {
     analogWrite(IN1_PIN, speed);
     analogWrite(IN2_PIN, 0);
+    return;
   }
   else {
     analogWrite(IN1_PIN, 255);
     analogWrite(IN2_PIN, 255);
+    return;
   }
   return;
 }
