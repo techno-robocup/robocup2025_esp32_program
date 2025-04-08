@@ -48,8 +48,10 @@ void loop()
   }
 }
 
+
 void receiveEvent(int byteNum)
 {
+  std::int8_t a,b;
   debugprintln(byteNum);
   if (byteNum < 5)
   {
@@ -64,18 +66,18 @@ void receiveEvent(int byteNum)
     cmd = Wire.read();
     if (cmd == 0x00)
     {
-      int posneg = Wire.read();
-      int recievednum = Wire.read();
-      if (posneg == 0x01)
-        motor_speed[0] = -recievednum;
-      else
-        motor_speed[0] = recievednum;
-      posneg = Wire.read();
-      recievednum = Wire.read();
-      if (posneg == 0x01)
-        motor_speed[1] = -recievednum;
-      else
-        motor_speed[1] = recievednum;
+      a = Wire.read();
+      if(a == 0){
+        motor_speed[0] = Wire.read();
+      }if(a == 1){
+        motor_speed[0] = -1 * Wire.read();
+      }
+      b = Wire.read();
+      if(b == 0){
+        motor_speed[1] = Wire.read();
+      }if(b == 1){
+        motor_speed[1] = -1 * Wire.read();
+      }
     }
     else
     {
