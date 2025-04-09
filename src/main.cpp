@@ -55,6 +55,7 @@ void setup()
   motor = MOTORIO(motor_pin);
   motor2 = MOTORIO(motor2_pin);
   pinMode(fb_pin, INPUT);
+  pinMode(fb2_pin, INPUT);
 
   xTaskCreatePinnedToCore(
       MotorControlTask,
