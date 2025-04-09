@@ -18,6 +18,7 @@ int motor_pin = 32;
 int fb_pin = 33;
 int motor2_pin = 26;
 int fb2_pin = 27;
+TaskHandle_t motor_Taskhandler;
 
 bool recieved = false;
 int cmd = 0x10;
@@ -63,7 +64,7 @@ void setup()
       2048,
       nullptr,
       1,
-      nullptr,
+      &motor_Taskhandler,
       0);
 
   xTaskCreatePinnedToCore(
