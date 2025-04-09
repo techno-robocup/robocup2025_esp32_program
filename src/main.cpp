@@ -4,10 +4,8 @@
 
 void receiveEvent(int);
 void requestEvent();
-template <typename... Args>
-inline void debugprint(Args... args);
-template <typename... Args>
-inline void debugprintln(Args... args);
+template <typename... Args> inline void debugprint(Args... args);
+template <typename... Args> inline void debugprintln(Args... args);
 
 #define _DEBUG 1
 
@@ -26,28 +24,23 @@ int cmd = 0x10;
 MOTORIO motor;
 MOTORIO motor2;
 
-void MotorControlTask(void *pvParameters)
-{
-  while (true)
-  {
+void MotorControlTask(void *pvParameters) {
+  while (true) {
     motor.run_msec(motor_speed[0]);
     motor2.run_msec(motor_speed[1]);
     vTaskDelay(20 / portTICK_PERIOD_MS);
   }
 }
 
-void SerialDebugTask(void *pvParameters)
-{
-  while (true)
-  {
+void SerialDebugTask(void *pvParameters) {
+  while (true) {
     debugprint("motor1: ", motor_speed[0], " / ");
     debugprintln("motor2: ", motor_speed[1]);
     vTaskDelay(1000 / portTICK_PERIOD_MS);
   }
 }
 
-void setup()
-{
+void setup() {
   Serial.begin(115200);
   Wire.begin(0x08);
   Wire.onReceive(receiveEvent);
@@ -58,68 +51,43 @@ void setup()
   pinMode(fb_pin, INPUT);
   pinMode(fb2_pin, INPUT);
 
-  xTaskCreatePinnedToCore(
-      MotorControlTask,
-      "MotorTask",
-      2048,
-      nullptr,
-      1,
-      &motor_Taskhandler,
-      0);
+  xTaskCreatePinnedToCore(MotorControlTask, "MotorTask", 2048, nullptr, 1,
+                          &motor_Taskhandler, 0);
 
-  xTaskCreatePinnedToCore(
-      SerialDebugTask,
-      "DebugTask",
-      2048,
-      nullptr,
-      1,
-      nullptr,
-      1);
+  xTaskCreatePinnedToCore(SerialDebugTask, "DebugTask", 2048, nullptr, 1,
+                          nullptr, 1);
 }
 
-void receiveEvent(int byteNum)
-{
+void receiveEvent(int byteNum) {
   std::int8_t a, b;
   debugprintln(byteNum);
-  if (byteNum < 5)
-  {
-    while (Wire.available())
-    {
+  if (byteNum < 5) {
+    while (Wire.available()) {
       Wire.read();
     }
     return;
-  }
-  else
-  {
+  } else {
     cmd = Wire.read();
-    if (cmd == 0x00)
-    {
+    if (cmd == 0x00) {
       a = Wire.read();
-      if (a == 0)
-      {
+      if (a == 0) {
         motor_speed[0] = Wire.read();
       }
-      if (a == 1)
-      {
+      if (a == 1) {
         motor_speed[0] = -1 * Wire.read();
       }
       b = Wire.read();
-      if (b == 0)
-      {
+      if (b == 0) {
         motor_speed[1] = Wire.read();
       }
-      if (b == 1)
-      {
+      if (b == 1) {
         motor_speed[1] = -1 * Wire.read();
       }
-    }
-    else
-    {
+    } else {
       return;
     }
   }
-  while (Wire.available())
-  {
+  while (Wire.available()) {
     Wire.read();
   }
   recieved = true;
@@ -127,35 +95,27 @@ void receiveEvent(int byteNum)
   return;
 }
 
-void requestEvent()
-{
+void requestEvent() {
   if (recieved)
     Wire.write(0x00);
   if (!recieved)
     Wire.write(0x01);
   return;
 }
-void loop()
-{
+void loop() {
   // Not used.
 }
 
 #ifdef _DEBUG
-template <typename... Args>
-inline void debugprint(Args... args)
-{
+template <typename... Args> inline void debugprint(Args... args) {
   (Serial.print(args), ...);
 }
 
-template <typename... Args>
-inline void debugprintln(Args... args)
-{
+template <typename... Args> inline void debugprintln(Args... args) {
   (Serial.print(args), ...);
   Serial.println();
 }
 #else
-template <typename... Args>
-inline void debugprint(Args...) {}
-template <typename... Args>
-inline void debugprintln(Args...) {}
+template <typename... Args> inline void debugprint(Args...) {}
+template <typename... Args> inline void debugprintln(Args...) {}
 #endif
