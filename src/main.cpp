@@ -12,6 +12,7 @@ inline void debugprintln(Args... args);
 int motor_speed[2] = {0, 0};
 
 int motor_pin = 32;
+int fb_pin = 33;
 
 bool recieved = false;
 int cmd = 0x10;
@@ -22,29 +23,32 @@ void setup(){
   Wire.onReceive(receiveEvent);
   Wire.onRequest(requestEvent);
   motor = MOTORIO(motor_pin);
+  pinMode(fb_pin, INPUT);
 }
 
 
 void loop()
 {
   long lastmil=millis();
-  while(millis()-lastmil<1000){
+  while(millis()-lastmil<2000){
     motor.run_msec(1000);
     delay(20);
-    lastmil=millis();
     Serial.println("1000");
+    Serial.println(analogRead(fb_pin));
   }
-  while(millis()-lastmil<1000){
+  lastmil=millis();
+  while(millis()-lastmil<2000){
     motor.run_msec(1500);
     delay(20);
-    lastmil=millis();
     Serial.println("1500");
+    Serial.println(analogRead(fb_pin));
   }
-  while(millis()-lastmil<1000){
+  lastmil=millis();
+  while(millis()-lastmil<3000){
     motor.run_msec(2000);
     delay(20);
-    lastmil=millis();
     Serial.println("2000");
+    Serial.println(analogRead(fb_pin));
   }
 }
 
