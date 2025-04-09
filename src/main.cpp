@@ -60,18 +60,18 @@ void setup()
       MotorControlTask,
       "MotorTask",
       2048,
-      NULL,
+      nullptr,
       1,
-      NULL,
+      nullptr,
       0);
 
   xTaskCreatePinnedToCore(
       SerialDebugTask,
       "DebugTask",
       2048,
-      NULL,
+      nullptr,
       1,
-      NULL,
+      nullptr,
       1);
 }
 
