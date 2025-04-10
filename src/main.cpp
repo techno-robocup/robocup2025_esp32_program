@@ -28,10 +28,12 @@ portMUX_TYPE motormux = portMUX_INITIALIZER_UNLOCKED;
 void MotorControlTask(void *pvParameters) {
   while (true) {
     {
+      debugprintln("[0] locking mutex");
       Mymutex _(&motormux);
       motor.run_msec(motor_speed[0]);
       motor2.run_msec(motor_speed[1]);
       vTaskDelay(20 / portTICK_PERIOD_MS);
+      debugprintln("[0] unlocking mutex");
     }
   }
 }
