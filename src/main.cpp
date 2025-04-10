@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <motorio.hpp>
-#include <my_mutex.hpp>
+#include <mutex>
 
 void receiveEvent(int);
 void requestEvent();
@@ -23,13 +23,13 @@ int cmd = 0x10;
 
 MOTORIO motor;
 MOTORIO motor2;
-portMUX_TYPE motormux = portMUX_INITIALIZER_UNLOCKED;
+std::mutex motormutex;
 
 void MotorControlTask(void *pvParameters) {
   while (true) {
     {
       debugprintln("[0] locking mutex");
-      Mymutex _(&motormux);
+      std::lock_guard<std::mutex> _(motormutex);
       motor.run_msec(motor_speed[0]);
       motor2.run_msec(motor_speed[1]);
       vTaskDelay(20 / portTICK_PERIOD_MS);
@@ -101,16 +101,16 @@ void requestEvent() {
 void loop() {
   {
     debugprintln("[1] locking mutex");
-    Mymutex _(&motormux);
+    std::lock_guard<std::mutex> _(motormutex);
     debugprintln("[1] speed 1500");
     motor_speed[0] = 1500;
     motor_speed[1] = 1500;
     debugprintln("[1] unlocking mutex");
   }
-  delay(1000);
+  delay(5000);
   {
     debugprintln("[1] locking mutex");
-    Mymutex _(&motormux);
+    std::lock_guard<std::mutex> _(motormutex);
     debugprintln("[1] speed 1000");
     motor_speed[0] = 1000;
     motor_speed[1] = 1000;
@@ -119,7 +119,7 @@ void loop() {
   delay(1000);
   {
     debugprintln("[1] locking mutex");
-    Mymutex _(&motormux);
+    std::lock_guard<std::mutex> _(motormutex);
     debugprintln("[1] speed 2000");
     motor_speed[0] = 2000;
     motor_speed[1] = 2000;
