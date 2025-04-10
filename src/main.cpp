@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <motorio.hpp>
+#include <my_mutex.hpp>
 
 void receiveEvent(int);
 void requestEvent();
@@ -22,12 +23,16 @@ int cmd = 0x10;
 
 MOTORIO motor;
 MOTORIO motor2;
+portMUX_TYPE motormux = portMUX_INITIALIZER_UNLOCKED;
 
 void MotorControlTask(void *pvParameters) {
   while (true) {
-    motor.run_msec(motor_speed[0]);
-    motor2.run_msec(motor_speed[1]);
-    vTaskDelay(20 / portTICK_PERIOD_MS);
+    {
+      Mymutex _(&motormux);
+      motor.run_msec(motor_speed[0]);
+      motor2.run_msec(motor_speed[1]);
+      vTaskDelay(20 / portTICK_PERIOD_MS);
+    }
   }
 }
 
