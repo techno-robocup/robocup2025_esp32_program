@@ -16,6 +16,8 @@ int motor_pin = 32;
 int fb_pin = 33;
 int motor2_pin = 26;
 int fb2_pin = 27;
+int speed = 1500;
+int incrementer = 1;
 TaskHandle_t motor_Taskhandler;
 
 bool recieved = false;
@@ -99,33 +101,14 @@ void requestEvent() {
   return;
 }
 void loop() {
+  speed += incrementer;
+  if (speed >= 2000) incrementer = -1;
+  if (speed <= 1000) incrementer = 1;
   {
-    debugprintln("[1] locking mutex");
     std::lock_guard<std::mutex> _(motormutex);
-    debugprintln("[1] speed 1500");
-    motor_speed[0] = 1500;
-    motor_speed[1] = 1500;
-    debugprintln("[1] unlocking mutex");
+    motor_speed[0] = motor_speed[1] = speed;
   }
-  delay(5000);
-  {
-    debugprintln("[1] locking mutex");
-    std::lock_guard<std::mutex> _(motormutex);
-    debugprintln("[1] speed 1000");
-    motor_speed[0] = 1000;
-    motor_speed[1] = 1000;
-    debugprintln("[1] unlocking mutex");
-  }
-  delay(1000);
-  {
-    debugprintln("[1] locking mutex");
-    std::lock_guard<std::mutex> _(motormutex);
-    debugprintln("[1] speed 2000");
-    motor_speed[0] = 2000;
-    motor_speed[1] = 2000;
-    debugprintln("[1] unlocking mutex");
-  }
-  delay(1000);
+  delay(10)
 }
 
 #ifdef _DEBUG
