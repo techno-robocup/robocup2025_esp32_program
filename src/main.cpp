@@ -108,7 +108,7 @@ void loop() {
     std::lock_guard<std::mutex> _(motormutex);
     motor_speed[0] = motor_speed[1] = speed;
   }
-  delay(10)
+  delay(10);
 }
 
 #ifdef _DEBUG
