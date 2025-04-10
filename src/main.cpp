@@ -32,7 +32,7 @@ void MotorControlTask(void *pvParameters) {
       std::lock_guard<std::mutex> _(motormutex);
       motor.run_msec(motor_speed[0]);
       motor2.run_msec(motor_speed[1]);
-      vTaskDelay(20 / portTICK_PERIOD_MS);
+      vTaskDelay(15 / portTICK_PERIOD_MS);
       debugprintln("[0] unlocking mutex");
     }
   }
