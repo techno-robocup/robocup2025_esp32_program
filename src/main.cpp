@@ -10,7 +10,7 @@ template <typename... Args> inline void debugprintln(Args... args);
 
 #define _DEBUG 1
 
-int motor_speed[2] = {0, 0};
+int motor_speed[2] = {1500, 1500};
 
 int motor_pin = 32;
 int fb_pin = 33;
