@@ -10,7 +10,6 @@ template <typename... Args> inline void debugprintln(Args... args);
 #define _DEBUG 1
 
 int motor_speed[2] = {0, 0};
-int motor_speed2[2] = {0, 0};
 
 int motor_pin = 32;
 int fb_pin = 33;
@@ -32,13 +31,6 @@ void MotorControlTask(void *pvParameters) {
   }
 }
 
-void SerialDebugTask(void *pvParameters) {
-  while (true) {
-    debugprint("motor1: ", motor_speed[0], " / ");
-    debugprintln("motor2: ", motor_speed[1]);
-    vTaskDelay(1000 / portTICK_PERIOD_MS);
-  }
-}
 
 void setup() {
   Serial.begin(115200);
@@ -53,9 +45,6 @@ void setup() {
 
   xTaskCreatePinnedToCore(MotorControlTask, "MotorTask", 2048, nullptr, 1,
                           &motor_Taskhandler, 0);
-
-  xTaskCreatePinnedToCore(SerialDebugTask, "DebugTask", 2048, nullptr, 1,
-                          nullptr, 1);
 }
 
 void receiveEvent(int byteNum) {
