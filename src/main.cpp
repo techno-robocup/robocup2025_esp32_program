@@ -99,7 +99,33 @@ void requestEvent() {
   return;
 }
 void loop() {
-  // Not used.
+  {
+    debugprintln("[1] locking mutex");
+    Mymutex _(&motormux);
+    debugprintln("[1] speed 1500");
+    motor_speed[0] = 1500;
+    motor_speed[1] = 1500;
+    debugprintln("[1] unlocking mutex");
+  }
+  delay(1000);
+  {
+    debugprintln("[1] locking mutex");
+    Mymutex _(&motormux);
+    debugprintln("[1] speed 1000");
+    motor_speed[0] = 1000;
+    motor_speed[1] = 1000;
+    debugprintln("[1] unlocking mutex");
+  }
+  delay(1000);
+  {
+    debugprintln("[1] locking mutex");
+    Mymutex _(&motormux);
+    debugprintln("[1] speed 2000");
+    motor_speed[0] = 2000;
+    motor_speed[1] = 2000;
+    debugprintln("[1] unlocking mutex");
+  }
+  delay(1000);
 }
 
 #ifdef _DEBUG
