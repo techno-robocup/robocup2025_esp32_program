@@ -5,8 +5,10 @@
 
 void receiveEvent(int);
 void requestEvent();
-template <typename... Args> inline void debugprint(Args... args);
-template <typename... Args> inline void debugprintln(Args... args);
+template <typename... Args>
+inline void debugprint(Args... args);
+template <typename... Args>
+inline void debugprintln(Args... args);
 
 #define _DEBUG 1
 
@@ -27,7 +29,7 @@ MOTORIO motor;
 MOTORIO motor2;
 std::mutex motormutex;
 
-void MotorControlTask(void *pvParameters) {
+void MotorControlTask(void* pvParameters) {
   while (true) {
     {
       debugprintln("[0] locking mutex");
@@ -39,7 +41,6 @@ void MotorControlTask(void *pvParameters) {
     }
   }
 }
-
 
 void setup() {
   Serial.begin(115200);
@@ -94,10 +95,8 @@ void receiveEvent(int byteNum) {
 }
 
 void requestEvent() {
-  if (recieved)
-    Wire.write(0x00);
-  if (!recieved)
-    Wire.write(0x01);
+  if (recieved) Wire.write(0x00);
+  if (!recieved) Wire.write(0x01);
   return;
 }
 void loop() {
@@ -112,15 +111,19 @@ void loop() {
 }
 
 #ifdef _DEBUG
-template <typename... Args> inline void debugprint(Args... args) {
+template <typename... Args>
+inline void debugprint(Args... args) {
   (Serial.print(args), ...);
 }
 
-template <typename... Args> inline void debugprintln(Args... args) {
+template <typename... Args>
+inline void debugprintln(Args... args) {
   (Serial.print(args), ...);
   Serial.println();
 }
 #else
-template <typename... Args> inline void debugprint(Args...) {}
-template <typename... Args> inline void debugprintln(Args...) {}
+template <typename... Args>
+inline void debugprint(Args...) {}
+template <typename... Args>
+inline void debugprintln(Args...) {}
 #endif
