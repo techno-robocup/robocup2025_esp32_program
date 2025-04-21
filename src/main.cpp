@@ -53,8 +53,7 @@ void setup() {
   pinMode(fb_pin, INPUT);
   pinMode(fb2_pin, INPUT);
 
-  xTaskCreatePinnedToCore(MotorControlTask, "MotorTask", 2048, nullptr, 1,
-                          &motor_Taskhandler, 0);
+  xTaskCreatePinnedToCore(MotorControlTask, "MotorTask", 2048, nullptr, 1, &motor_Taskhandler, 0);
 }
 
 void receiveEvent(int byteNum) {
