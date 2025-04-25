@@ -62,7 +62,6 @@ void setup() {
   pinMode(fb3_pin, INPUT);
   pinMode(fb4_pin, INPUT);
   pinMode(fb5_pin, INPUT);
-  Serial.println(analogRead(fb1_pin), analogRead(fb2_pin), analogRead(fb3_pin), analogRead(fb4_pin), analogRead(fb5_pin));
   xTaskCreatePinnedToCore(MotorControlTask, "MotorTask", 2048, nullptr, 1, &motor_Taskhandler, 0);
 }
 
@@ -117,6 +116,13 @@ void loop() {
     motor_speed[0] = motor_speed[1] = motor_speed[2] = motor_speed[3] = motor_speed[4] = speed;
   }
   delay(10);
+  Serial.print(analogRead(fb1_pin));
+  Serial.print(" ");
+  Serial.print(analogRead(fb2_pin));
+  Serial.print(" ");
+  Serial.print(analogRead(fb3_pin));
+  Serial.print(" ");
+  Serial.println();
 }
 
 #ifdef _DEBUG
