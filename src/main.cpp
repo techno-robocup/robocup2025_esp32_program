@@ -14,11 +14,8 @@ inline void debugprintln(Args... args);
 
 int motor_speed[5] = {1500, 1500, 1500, 1500, 1500};
 
-int motor1_pin = 13, fb1_pin = 34,
-    motor2_pin = 14, fb2_pin = 35,
-    motor3_pin = 15, fb3_pin = 36,
-    motor4_pin = 16, fb4_pin = 39,
-    motor5_pin = 17, fb5_pin = 32;
+int motor1_pin = 13, fb1_pin = 34, motor2_pin = 14, fb2_pin = 35, motor3_pin = 15, fb3_pin = 36,
+    motor4_pin = 16, fb4_pin = 39, motor5_pin = 17, fb5_pin = 32;
 int speed = 1500;
 int incrementer = 1;
 TaskHandle_t motor_Taskhandler;
@@ -62,7 +59,8 @@ void setup() {
   pinMode(fb3_pin, INPUT);
   pinMode(fb4_pin, INPUT);
   pinMode(fb5_pin, INPUT);
-  Serial.println(analogRead(fb1_pin), analogRead(fb2_pin), analogRead(fb3_pin), analogRead(fb4_pin), analogRead(fb5_pin));
+  Serial.println(analogRead(fb1_pin), analogRead(fb2_pin), analogRead(fb3_pin), analogRead(fb4_pin),
+                 analogRead(fb5_pin));
   xTaskCreatePinnedToCore(MotorControlTask, "MotorTask", 2048, nullptr, 1, &motor_Taskhandler, 0);
 }
 
