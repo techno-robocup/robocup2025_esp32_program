@@ -119,6 +119,10 @@ void loop() {
   Serial.print(" ");
   Serial.print(analogRead(fb3_pin));
   Serial.print(" ");
+  Serial.print(analogRead(fb4_pin));
+  Serial.print(" ");
+  Serial.print(analogRead(fb5_pin));
+  Serial.print(" ");
   Serial.println();
 }
 
