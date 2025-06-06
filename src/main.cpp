@@ -44,7 +44,7 @@ void MotorControlTask(void* pvParameters) {
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   Wire.begin(0x08);
   Wire.onReceive(receiveEvent);
   Wire.onRequest(requestEvent);
