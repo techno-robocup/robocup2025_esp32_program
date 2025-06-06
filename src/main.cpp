@@ -105,25 +105,15 @@ void requestEvent() {
   return;
 }
 void loop() {
-  speed += incrementer;
-  if (speed >= 2000) incrementer = -1;
-  if (speed <= 1000) incrementer = 1;
-  {
-    std::lock_guard<std::mutex> _(motormutex);
-    motor_speed[0] = motor_speed[1] = motor_speed[2] = motor_speed[3] = motor_speed[4] = speed;
+  std::string start = Serial.readString();
+  if (start == "[RASPI] READY?") {
+    Serial.println("[ESP32] READY?");
+    delay(100);
+    start = Serial.readString();
+    if (start == "[RASPI] READY CONFIRMED") {
+      // Start
+    }
   }
-  delay(10);
-  Serial.print(analogRead(fb1_pin));
-  Serial.print(" ");
-  Serial.print(analogRead(fb2_pin));
-  Serial.print(" ");
-  Serial.print(analogRead(fb3_pin));
-  Serial.print(" ");
-  Serial.print(analogRead(fb4_pin));
-  Serial.print(" ");
-  Serial.print(analogRead(fb5_pin));
-  Serial.print(" ");
-  Serial.println();
 }
 
 #ifdef _DEBUG
