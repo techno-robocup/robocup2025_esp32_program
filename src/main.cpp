@@ -105,7 +105,7 @@ void requestEvent() {
   return;
 }
 void loop() {
-  std::string start = Serial.readString();
+  String start = Serial.readString();
   if (start == "[RASPI] READY?") {
     Serial.println("[ESP32] READY?");
     delay(100);
