@@ -1,23 +1,24 @@
 #include <Arduino.h>
 
+bool isReady = false;
+unsigned long lastMessageTime = 0;
+
 void setup() {
   Serial.begin(9600);
-  long time = millis();
-  while (true) {
-    if (millis() - time > 1000) {
-      Serial.println("Test message");
-      time = millis();
-    }
-    while (!Serial.available());
+}
+
+void loop() {
+  if (millis() - lastMessageTime > 1000) {
+    Serial.println("Test message");
+    lastMessageTime = millis();
+  }
+  if (Serial.available()) {
     String str = Serial.readStringUntil('\n');
     if (str == "[RASPI] READY?") {
       Serial.println("[ESP32] READY");
     }
-    str = Serial.readStringUntil('\n');
-    if (str == "[RASPI] READY CONFIRMED") {
-      break;
+    else if (str == "[RASPI] READY CONFIRMED") {
+      isReady = true;
     }
   }
 }
-
-void loop() {}
