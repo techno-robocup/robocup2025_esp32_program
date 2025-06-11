@@ -16,6 +16,7 @@ int motor_speed[5] = {1500, 1500, 1500, 1500, 1500};
 
 int motor1_pin = 13, fb1_pin = 34, motor2_pin = 14, fb2_pin = 35, motor3_pin = 15, fb3_pin = 36,
     motor4_pin = 16, fb4_pin = 39, motor5_pin = 17, fb5_pin = 32;
+int ultra_1_trig = 18;
 int speed = 1500;
 int incrementer = 1;
 TaskHandle_t motor_Taskhandler;
