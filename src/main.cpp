@@ -3,9 +3,7 @@
 bool isReady = false;
 unsigned long lastMessageTime = 0;
 
-void setup() {
-  Serial.begin(9600);
-}
+void setup() { Serial.begin(9600); }
 
 void loop() {
   if (millis() - lastMessageTime > 1000) {
@@ -16,8 +14,7 @@ void loop() {
     String str = Serial.readStringUntil('\n');
     if (str == "[RASPI] READY?") {
       Serial.println("[ESP32] READY");
-    }
-    else if (str == "[RASPI] READY CONFIRMED") {
+    } else if (str == "[RASPI] READY CONFIRMED") {
       isReady = true;
     }
   }
