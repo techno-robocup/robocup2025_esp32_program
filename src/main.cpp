@@ -2,19 +2,17 @@
 
 void setup() {
   Serial.begin(9600);
-  while(true){
-    while(!Serial.available());
+  while (true) {
+    while (!Serial.available());
     String str = Serial.readStringUntil('\n');
-    if (str == "[RASPI] READY?"){
+    if (str == "[RASPI] READY?") {
       Serial.println("[ESP32] READY");
     }
     str = Serial.readStringUntil('\n');
-    if (str == "[RASPI] READY CONFIRMED"){
+    if (str == "[RASPI] READY CONFIRMED") {
       break;
     }
   }
 }
 
-void loop() {
-
-}
+void loop() {}
