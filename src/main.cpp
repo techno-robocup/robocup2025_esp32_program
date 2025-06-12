@@ -8,5 +8,8 @@ void setup() {
 }
 
 void loop() {
-
+  if (serial.isMessageAvailable()) {
+    Message message = serial.receiveMessage();
+    serial.sendMessage(Message(message.getId(), "Hello from ESP32"));
+  }
 }
