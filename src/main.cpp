@@ -1,7 +1,6 @@
 #include <Arduino.h>
 
 bool isReady = false;
-unsigned long lastMessageTime = 0;
 
 void setup() {
   Serial.begin(9600);
