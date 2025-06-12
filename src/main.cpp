@@ -5,7 +5,7 @@ unsigned long lastMessageTime = 0;
 
 void setup() {
   Serial.begin(9600);
-  while(true) {
+  while (true) {
     if (Serial.available()) {
       String str = Serial.readStringUntil('\n');
       if (str == "[RASPI] READY?") {
@@ -17,6 +17,4 @@ void setup() {
   }
 }
 
-void loop() {
-  
-}
+void loop() {}
