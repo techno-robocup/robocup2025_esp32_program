@@ -1,7 +1,10 @@
 #include <Arduino.h>
+#include "serial_io.hpp"
+
+SerialIO serial;
 
 void setup() {
-  Serial.begin(9600);
+  serial.init();
 }
 
 void loop() {
