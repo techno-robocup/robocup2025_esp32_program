@@ -3,9 +3,7 @@
 
 SerialIO serial;
 
-void setup() {
-  serial.init();
-}
+void setup() { serial.init(); }
 
 void loop() {
   if (serial.isMessageAvailable()) {
