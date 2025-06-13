@@ -7,7 +7,7 @@ void setup() { serial.init(); }
 
 void loop() {
   if (serial.isMessageAvailable()) {
-    Message message = serial.receiveMessage();
+    Message message = std::move(serial.receiveMessage());
     serial.sendMessage(Message(message.getId(), "Hello from ESP32"));
   }
 }
