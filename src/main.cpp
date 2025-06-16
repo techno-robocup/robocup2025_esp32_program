@@ -6,9 +6,4 @@ SerialIO serial;
 
 void setup() { serial.init(); }
 
-void loop() {
-  if (serial.isMessageAvailable()) {
-    Message message = serial.receiveMessage();
-    serial.sendMessage(Message(message.getId(), "Hello from ESP32"));
-  }
-}
+void loop() {}
