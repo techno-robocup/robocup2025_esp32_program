@@ -6,4 +6,6 @@ SerialIO serial;
 
 void setup() { serial.init(); }
 
-void loop() {}
+void loop() {
+  if (!serial.isMessageAvailable()) continue;
+}
