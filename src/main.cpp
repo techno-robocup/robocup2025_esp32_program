@@ -4,16 +4,19 @@
 
 SerialIO serial;
 
+constexpr int button_pin = 21;
+
+pinMode(button_pin, INPUT) int readbutton() { return digitalRead(button_pin); }
+
 void setup() { serial.init(); }
 
 void loop() {
   if (!serial.isMessageAvailable()) return;
 
-  Message msg = serial.receiveMessage();
-  String message = msg.getMessage();
+  Message msg = serial.receiveMessage;
 
-  if (message.startsWith("Motor ")) {
-    message = message.substring(6);
+  if (msg.getMessage().startsWith("Motor ")) {
+    String message = msg.getMessage().substring(6);
     if (message.length() == 19) {
       int tyre_values[4];
       int idx = 0;
@@ -39,11 +42,17 @@ void loop() {
       Serial.println("Error: motor message must be 4-digit");
     }
   }
-  if (message.startsWith("Rescue ")) {
+  if (msg.getMessage().startsWith("Rescue ")) {
     message = message.substring(7);
     if (message.length() == 5) {  // NOTE: ID Rescue arm_angle wire(0,1)
       int arm_values = message.substring(0, 4).toInt();
       bool wire = message[5];
     }
+  }
+  // if (message.startsWith("Sonic")) {
+  //   serial.sendMessage();
+  // }
+  if (msg.getMessage().startWith("Get button")) {
+    Message sendmsg = serial::sendMessage(pinMOde.toString);
   }
 }
