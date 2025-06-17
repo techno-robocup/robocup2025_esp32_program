@@ -5,10 +5,12 @@
 SerialIO serial;
 
 constexpr int button_pin = 21;
+int readbutton() { return digitalRead(button_pin); }
 
-pinMode(button_pin, INPUT) int readbutton() { return digitalRead(button_pin); }
-
-void setup() { serial.init(); }
+void setup() {
+  serial.init();
+  pinMode(button_pin, INPUT)
+}
 
 void loop() {
   if (!serial.isMessageAvailable()) return;
