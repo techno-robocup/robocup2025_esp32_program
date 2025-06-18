@@ -18,7 +18,7 @@ void setup() {
 void loop() {
   if (!serial.isMessageAvailable()) return;
 
-  Message msg = serial.receiveMessage;
+  Message msg = serial.receiveMessage();
 
   if (msg.getMessage().startsWith("Motor ")) {
     String message = msg.getMessage().substring(6);
@@ -51,7 +51,7 @@ void loop() {
   // if (message.startsWith("Sonic")) {
   //   serial.sendMessage();
   // }
-  if (msg.getMessage().startWith("Get button")) {
-    Message sendmsg = serial::sendMessage(pinMOde.toString);
+  if (msg.getMessage().startsWith("Get button")) {
+    serial.sendMessage(readbutton());
   }
 }
