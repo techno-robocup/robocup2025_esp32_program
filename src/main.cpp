@@ -51,7 +51,7 @@ void loop() {
   // if (message.startsWith("Sonic")) {
   //   serial.sendMessage();
   // }
-  if (msg.getMessage().startsWith("Get button")) {
+  if (msg.getMessage().startsWith("GET button")) {
     serial.sendMessage(Message(msg.getId(), String(readbutton())));
   }
 }
