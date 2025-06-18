@@ -35,8 +35,7 @@ void loop() {
           message = message.substring(spaceIndex + 1);
         }
       }
-    }
-    else {
+    } else {
       return;
     }
   }
@@ -45,8 +44,7 @@ void loop() {
     if (message.length() == 5) {  // NOTE: ID Rescue arm_angle wire(0,1)
       arm_value = message.substring(0, 4).toInt();
       wire = message[5];
-    }
-    else {
+    } else {
       return;
     }
   }
