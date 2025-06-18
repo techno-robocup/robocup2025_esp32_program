@@ -9,7 +9,7 @@ int readbutton() { return digitalRead(button_pin); }
 
 void setup() {
   serial.init();
-  pinMode(button_pin, INPUT)
+  pinMode(button_pin, INPUT);
 }
 
 void loop() {
