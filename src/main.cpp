@@ -22,7 +22,7 @@ void loop() {
     if (message.length() == 19) {
       int tyre_values[4];
       int idx = 0;
-
+      // TODO: Optimize the coe by not copying the String
       while (message.length() > 0 && idx < 4) {
         int spaceIndex = message.indexOf(' ');
         if (spaceIndex == -1) {
