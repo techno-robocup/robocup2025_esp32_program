@@ -33,15 +33,6 @@ void loop() {
           message = message.substring(spaceIndex + 1);
         }
       }
-
-      if (idx == 4) {
-        Serial.printf("motor values = %d %d %d %d\n", tyre_values[0], tyre_values[1],
-                      tyre_values[2], tyre_values[3]);  // TODO: clate motor fn
-      } else {
-        Serial.println("Error: less than 4 values");
-      }
-    } else {
-      Serial.println("Error: motor message must be 4-digit");
     }
   }
   if (msg.getMessage().startsWith("Rescue ")) {
