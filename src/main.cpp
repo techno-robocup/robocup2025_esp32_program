@@ -48,7 +48,7 @@ void loop() {
     String message = msg.getMessage().substring(6);
     if (message.length() == 9) {
       int idx = 0;
-      // TODO: Optimize the coe by not copying the String
+      // TODO: Optimize the code by not copying the String
       while (message.length() > 0 && idx < 2) {
         if (xSemaphoreTake(motor_sem, portMAX_DELAY) == pdTRUE) {
           int spaceIndex = message.indexOf(' ');
