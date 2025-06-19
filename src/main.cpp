@@ -36,16 +36,14 @@ void motor_task_func(void* arg) {
 void setup() {
   serial.init();
   pinMode(button_pin, INPUT);
-  
-  // Create the motor task
   xTaskCreatePinnedToCore(
-    motor_task_func,    // Task function
-    "MotorTask",        // Task name
-    10000,              // Stack size (bytes)
-    NULL,               // Parameters
-    1,                  // Priority
-    &motor_task,        // Task handle
-    1                   // Core ID (1 for motor control)
+    motor_task_func,
+    "MotorTask",
+    10000,
+    NULL,
+    1,
+    &motor_task,
+    1
   );
 }
 
