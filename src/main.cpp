@@ -17,9 +17,36 @@ MOTORIO tyre_1_motor(tyre_1, tyre_interval), tyre_2_motor(tyre_2, tyre_interval)
 
 int readbutton() { return digitalRead(button_pin); }
 
+
+TaskHandle_t motor_task;
+SemaphoreHandle_t motor_sem = xSemaphoreCreateMutex();
+
+void motor_task_func(void* arg) {
+  while (true) {
+    if(xSemaphoreTake(motor_sem, portMAX_DELAY) == pdTRUE) {
+      tyre_1_motor.run_msec(tyre_values[0]);
+      tyre_2_motor.run_msec(tyre_values[1]);
+      tyre_3_motor.run_msec(tyre_values[2]);
+      tyre_4_motor.run_msec(tyre_values[3]);
+      xSemaphoreGive(motor_sem);
+    }
+  }
+}
+
 void setup() {
   serial.init();
   pinMode(button_pin, INPUT);
+  
+  // Create the motor task
+  xTaskCreatePinnedToCore(
+    motor_task_func,    // Task function
+    "MotorTask",        // Task name
+    10000,              // Stack size (bytes)
+    NULL,               // Parameters
+    1,                  // Priority
+    &motor_task,        // Task handle
+    1                   // Core ID (1 for motor control)
+  );
 }
 
 void loop() {
