@@ -7,22 +7,19 @@ constexpr int tyre_1 = 13, tyre_2 = 14, tyre_3 = 15, tyre_4 = 16;
 constexpr int button_pin = 21;
 constexpr int arm_feedback = 34, arm_pulse = 17;
 constexpr int wire_SIG = 32;
+constexpr int tyre_interval = 40;
 
 int tyre_values[2];
 int arm_value;
 bool wire = false;
 
-MOTORIO tyre_1_motor(tyre_1, 40), tyre_2_motor(tyre_2, 40), tyre_3_motor(tyre_3, 40), tyre_4_motor(tyre_4, 40);
+MOTORIO tyre_1_motor(tyre_1, tyre_interval), tyre_2_motor(tyre_2, tyre_interval), tyre_3_motor(tyre_3, tyre_interval), tyre_4_motor(tyre_4, tyre_interval);
 
 int readbutton() { return digitalRead(button_pin); }
 
 void setup() {
   serial.init();
   pinMode(button_pin, INPUT);
-  tyre_1_motor = MOTORIO(tyre_1, 40);
-  tyre_2_motor = MOTORIO(tyre_2, 40);
-  tyre_3_motor = MOTORIO(tyre_3, 40);
-  tyre_4_motor = MOTORIO(tyre_4, 40);
 }
 
 void loop() {
