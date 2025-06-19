@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#include "serial_io.hpp"
 #include "motorio.hpp"
+#include "serial_io.hpp"
 SerialIO serial;
 
 constexpr int tyre_1 = 13, tyre_2 = 14, tyre_3 = 15, tyre_4 = 16;
@@ -13,17 +13,17 @@ int tyre_values[2];
 int arm_value;
 bool wire = false;
 
-MOTORIO tyre_1_motor(tyre_1, tyre_interval), tyre_2_motor(tyre_2, tyre_interval), tyre_3_motor(tyre_3, tyre_interval), tyre_4_motor(tyre_4, tyre_interval);
+MOTORIO tyre_1_motor(tyre_1, tyre_interval), tyre_2_motor(tyre_2, tyre_interval),
+    tyre_3_motor(tyre_3, tyre_interval), tyre_4_motor(tyre_4, tyre_interval);
 
 int readbutton() { return digitalRead(button_pin); }
-
 
 TaskHandle_t motor_task;
 SemaphoreHandle_t motor_sem = xSemaphoreCreateMutex();
 
 void motor_task_func(void* arg) {
   while (true) {
-    if(xSemaphoreTake(motor_sem, portMAX_DELAY) == pdTRUE) {
+    if (xSemaphoreTake(motor_sem, portMAX_DELAY) == pdTRUE) {
       tyre_1_motor.run_msec(tyre_values[0]);
       tyre_2_motor.run_msec(tyre_values[1]);
       tyre_3_motor.run_msec(tyre_values[2]);
@@ -36,15 +36,7 @@ void motor_task_func(void* arg) {
 void setup() {
   serial.init();
   pinMode(button_pin, INPUT);
-  xTaskCreatePinnedToCore(
-    motor_task_func,
-    "MotorTask",
-    10000,
-    NULL,
-    1,
-    &motor_task,
-    1
-  );
+  xTaskCreatePinnedToCore(motor_task_func, "MotorTask", 10000, NULL, 1, &motor_task, 1);
 }
 
 void loop() {
