@@ -9,6 +9,7 @@ constexpr int wire_SIG = 32;
 
 int tyre_values[2];
 int arm_value;
+bool wire;
 
 int readbutton() { return digitalRead(button_pin); }
 
@@ -45,7 +46,7 @@ void loop() {
     String message = msg.getMessage().substring(7);
     if (message.length() == 5) {  // NOTE: ID Rescue arm_angle(1000~2000) wire(0,1)
       arm_value = message.substring(0, 4).toInt();
-      wire = message[5];
+      wire = message[5] - '0';
     } else {
       return;
     }
