@@ -2,7 +2,11 @@
 #include "serial_io.hpp"
 SerialIO serial;
 
+constexpr int tyre_1 = 13, tyre_2 = 14, tyre_3 = 15, tyre_4 = 16;
 constexpr int button_pin = 21;
+constexpr int arm_feedback = 34, arm_pulse = 17;
+constexpr int wire_SIG = 32;
+
 int tyre_values[2];
 int arm_value;
 
