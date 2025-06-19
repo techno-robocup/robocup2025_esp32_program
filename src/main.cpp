@@ -79,6 +79,6 @@ void loop() {
   //   serial.sendMessage();
   // }
   if (msg.getMessage().startsWith("GET button")) {
-    serial.sendMessage(Message(msg.getId(), String(readbutton())));
+    serial.sendMessage(Message(msg.getId(), String(readbutton() ? "ON" : "OFF")));
   }
 }
