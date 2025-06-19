@@ -9,7 +9,7 @@ constexpr int wire_SIG = 32;
 
 int tyre_values[2];
 int arm_value;
-bool wire;
+bool wire = false;
 
 int readbutton() { return digitalRead(button_pin); }
 
