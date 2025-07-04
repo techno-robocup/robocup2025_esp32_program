@@ -66,7 +66,9 @@ void loop() {
             tyre_values[idx++] = message.toInt();
             xSemaphoreGive(motor_sem);
             break;
-          }else {tyre_values[idx++] = message.substring(0, spaceIndex).toInt();message = message.substring(spaceIndex + 1);
+          } else {
+            tyre_values[idx++] = message.substring(0, spaceIndex).toInt();
+            message = message.substring(spaceIndex + 1);
           }
         }
       }
