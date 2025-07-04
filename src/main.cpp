@@ -54,7 +54,7 @@ void loop() {
 
   Message msg = serial.receiveMessage();
 
-  if (msg.getMessage().startsWith("Motor ")) {
+  if (msg.getMessage().startsWith("MOTOR ")) {
     String message = msg.getMessage().substring(6);
     if (message.length() == 9) {
       int idx = 0;
