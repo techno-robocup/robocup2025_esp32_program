@@ -36,7 +36,17 @@ void motor_task_func(void* arg) {
 void setup() {
   serial.init();
   pinMode(button_pin, INPUT);
-  xTaskCreatePinnedToCore(motor_task_func, "MotorTask", 10000, NULL, 1, &motor_task, 1);
+  /*
+  ARGS for xTaskCreatePinnedToCore:
+  - Task function
+  - Task name
+  - Stack size
+  - Task parameter
+  - Task priority
+  - Task handle
+  - Core ID
+  */
+  xTaskCreatePinnedToCore(motor_task_func, "MotorTask", 10000, nullptr, 1, &motor_task, 1);
 }
 
 void loop() {
@@ -44,7 +54,7 @@ void loop() {
 
   Message msg = serial.receiveMessage();
 
-  if (msg.getMessage().startsWith("Motor ")) {
+  if (msg.getMessage().startsWith("MOTOR ")) {
     String message = msg.getMessage().substring(6);
     if (message.length() == 9) {
       int idx = 0;
