@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include "armio.hpp"
 #include "motorio.hpp"
 #include "serial_io.hpp"
 SerialIO serial;
