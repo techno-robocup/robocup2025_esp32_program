@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "motorio.hpp"
 #include "serial_io.hpp"
+#include "mutex_guard.hpp"
 SerialIO serial;
 
 constexpr int tyre_1 = 13, tyre_2 = 14, tyre_3 = 15, tyre_4 = 16;
@@ -23,13 +24,11 @@ SemaphoreHandle_t motor_sem = xSemaphoreCreateMutex();
 
 void motor_task_func(void* arg) {
   while (true) {
-    if (xSemaphoreTake(motor_sem, portMAX_DELAY) == pdTRUE) {
-      tyre_1_motor.run_msec(tyre_values[0]);
-      tyre_2_motor.run_msec(tyre_values[1]);
-      tyre_3_motor.run_msec(tyre_values[2]);
-      tyre_4_motor.run_msec(tyre_values[3]);
-      xSemaphoreGive(motor_sem);
-    }
+    MutexGuard guard(motor_sem);
+    tyre_1_motor.run_msec(tyre_values[0]);
+    tyre_2_motor.run_msec(tyre_values[1]);
+    tyre_3_motor.run_msec(tyre_values[2]);
+    tyre_4_motor.run_msec(tyre_values[3]);
   }
 }
 
