@@ -60,14 +60,14 @@ void loop() {
       // TODO: Optimize the code by not copying the String
       while (message.length() > 0 && idx < 2) {
         MutexGuard guard(motor_sem);
-          int spaceIndex = message.indexOf(' ');
-          if (spaceIndex == -1) {
-            tyre_values[idx++] = message.toInt();
-            break;
-          } else {
-            tyre_values[idx++] = message.substring(0, spaceIndex).toInt();
-            message = message.substring(spaceIndex + 1);
-          }
+        int spaceIndex = message.indexOf(' ');
+        if (spaceIndex == -1) {
+          tyre_values[idx++] = message.toInt();
+          break;
+        } else {
+          tyre_values[idx++] = message.substring(0, spaceIndex).toInt();
+          message = message.substring(spaceIndex + 1);
+        }
       }
     } else {
       return;
