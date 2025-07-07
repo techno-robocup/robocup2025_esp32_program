@@ -38,33 +38,33 @@ void motor_task_func(void* arg) {
 bool parseMotorCommand(const char* message, int* values, int max_values) {
   int idx = 0;
   const char* ptr = message;
-  
+
   while (idx < max_values && *ptr) {
     // Skip leading spaces
     while (*ptr == ' ') ptr++;
     if (!*ptr) break;
-    
+
     // Parse number
     int val = 0;
     bool negative = false;
-    
+
     if (*ptr == '-') {
       negative = true;
       ptr++;
     }
-    
+
     while (*ptr >= '0' && *ptr <= '9') {
       val = val * 10 + (*ptr - '0');
       ptr++;
     }
-    
+
     if (negative) val = -val;
     values[idx++] = val;
-    
+
     // Skip to next space or end
     while (*ptr == ' ') ptr++;
   }
-  
+
   return idx == max_values;
 }
 
@@ -91,13 +91,12 @@ void loop() {
   const String& message = msg.getMessage();
 
   if (message.startsWith("MOTOR ")) {
-    const char* motor_data = message.c_str() + 6; // Skip "MOTOR "
+    const char* motor_data = message.c_str() + 6;  // Skip "MOTOR "
     if (parseMotorCommand(motor_data, tyre_values, 4)) {
       serial.sendMessage(Message(msg.getId(), "OK"));
     }
-  }
-  else if (message.startsWith("Rescue ")) {
-    const char* rescue_data = message.c_str() + 7; // Skip "Rescue "
+  } else if (message.startsWith("Rescue ")) {
+    const char* rescue_data = message.c_str() + 7;  // Skip "Rescue "
     if (strlen(rescue_data) >= 5) {
       // Parse arm_angle (4 digits) and wire (1 digit)
       char angle_str[5] = {0};
@@ -105,8 +104,7 @@ void loop() {
       arm_value = atoi(angle_str);
       wire = (rescue_data[4] == '1');
     }
-  }
-  else if (message.startsWith("GET button")) {
+  } else if (message.startsWith("GET button")) {
     const char* status = readbutton() ? "ON" : "OFF";
     serial.sendMessage(Message(msg.getId(), status));
   }
