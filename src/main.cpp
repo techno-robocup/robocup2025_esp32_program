@@ -12,7 +12,7 @@ constexpr int wire_SIG = 32;
 constexpr int tyre_interval = 40;
 
 // Fixed array size to match actual usage (4 motors, not 2)
-int tyre_values[4] = {0, 0, 0, 0};
+int tyre_values[4] = {1500, 1500, 1500, 1500};
 int arm_value = 0;
 bool wire = false;
 
