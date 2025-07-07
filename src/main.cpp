@@ -85,9 +85,29 @@ void setup() {
 }
 
 void loop() {
-  for (int i = 1000; i <= 2000; i += 100) {
-    MutexGuard guard(motor_sem);
-    tyre_values[0] = tyre_values[1] = tyre_values[2] = tyre_values[3] = i;
-    delay(1000);
+  if (!serial.isMessageAvailable()) return;
+
+  Message msg = serial.receiveMessage();
+  const String& message = msg.getMessage();
+
+  if (message.startsWith("MOTOR ")) {
+    const char* motor_data = message.c_str() + 6;  // Skip "MOTOR "
+    if (parseMotorCommand(motor_data, tyre_values, 2)) {
+      serial.sendMessage(
+          Message(msg.getId(), "OK " + String(tyre_values[0]) + " " + String(tyre_values[1]) + " " +
+                                   String(tyre_values[2]) + " " + String(tyre_values[3])));
+    }
+  } else if (message.startsWith("Rescue ")) {
+    const char* rescue_data = message.c_str() + 7;  // Skip "Rescue "
+    if (strlen(rescue_data) >= 5) {
+      // Parse arm_angle (4 digits) and wire (1 digit)
+      char angle_str[5] = {0};
+      strncpy(angle_str, rescue_data, 4);
+      arm_value = atoi(angle_str);
+      wire = (rescue_data[4] == '1');
+    }
+  } else if (message.startsWith("GET button")) {
+    const char* status = readbutton() ? "ON" : "OFF";
+    serial.sendMessage(Message(msg.getId(), status));
   }
 }
