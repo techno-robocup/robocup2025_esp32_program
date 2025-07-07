@@ -92,7 +92,7 @@ void loop() {
 
   if (message.startsWith("MOTOR ")) {
     const char* motor_data = message.c_str() + 6;  // Skip "MOTOR "
-    if (parseMotorCommand(motor_data, tyre_values, 4)) {
+    if (parseMotorCommand(motor_data, tyre_values, 2)) {
       serial.sendMessage(Message(msg.getId(), "OK " + String(tyre_values[0]) + " " + String(tyre_values[1]) + " " + String(tyre_values[2]) + " " + String(tyre_values[3])));
     }
   } else if (message.startsWith("Rescue ")) {
