@@ -85,9 +85,9 @@ void setup() {
 }
 
 void loop() {
-  for(int i=1000;i<=2000; i+=100){
+  for (int i = 1000; i <= 2000; i += 100) {
     MutexGuard guard(motor_sem);
-    tyre_values[0]=tyre_values[1]=tyre_values[2]=tyre_values[3]=i;
+    tyre_values[0] = tyre_values[1] = tyre_values[2] = tyre_values[3] = i;
     delay(1000);
   }
 }
