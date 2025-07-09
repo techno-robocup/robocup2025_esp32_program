@@ -1,8 +1,8 @@
 #include <Arduino.h>
+#include <cassert>
 #include "motorio.hpp"
 #include "mutex_guard.hpp"
 #include "serial_io.hpp"
-#include <cassert>
 SerialIO serial;
 
 constexpr int tyre_1 = 13, tyre_2 = 14, tyre_3 = 15, tyre_4 = 16;
