@@ -82,10 +82,20 @@ void setup() {
   - Task handle
   - Core ID
   */
-  xTaskCreatePinnedToCore(motor_task_func, "MotorTask", 2048, nullptr, 1, &motor_task, 1);
+  // xTaskCreatePinnedToCore(motor_task_func, "MotorTask", 2048, nullptr, 1, &motor_task, 1);
 }
 
 void loop() {
+  /*
+  How many microseconds does it take to run this whole loop?
+  Approx times for each opearation:
+  - writing on serial: around 100us
+  - reading on serial: around 100us
+  - running motors: max 2000us * 4 = 8000us
+
+  For total: 1000us + 1000us + 8000us = 10000us = 10ms = 100Hz
+
+  */
   if (!serial.isMessageAvailable()) return;
 
   Message msg = serial.receiveMessage();
