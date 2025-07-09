@@ -2,7 +2,7 @@
 #include "motorio.hpp"
 #include "mutex_guard.hpp"
 #include "serial_io.hpp"
-
+#include <cassert>
 SerialIO serial;
 
 constexpr int tyre_1 = 13, tyre_2 = 14, tyre_3 = 15, tyre_4 = 16;
@@ -36,6 +36,7 @@ void motor_task_func(void* arg) {
 
 // Optimized string parsing without String operations
 bool parseMotorCommand(const char* message, int* values, int max_values) {
+  assert(max_values == 2);
   int idx = 0;
   const char* ptr = message;
 
@@ -93,6 +94,10 @@ void loop() {
   if (message.startsWith("MOTOR ")) {
     const char* motor_data = message.c_str() + 6;  // Skip "MOTOR "
     if (parseMotorCommand(motor_data, tyre_values, 2)) {
+      // TODO: Fix legacy code for assuming 2 motor values
+      tyre_values[2] = tyre_values[0];
+      tyre_values[3] = tyre_values[1];
+      // TODO: Optimize code wihout concatenating strings
       serial.sendMessage(
           Message(msg.getId(), "OK " + String(tyre_values[0]) + " " + String(tyre_values[1]) + " " +
                                    String(tyre_values[2]) + " " + String(tyre_values[3])));
