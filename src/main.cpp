@@ -82,7 +82,7 @@ void setup() {
   - Task handle
   - Core ID
   */
-  // xTaskCreatePinnedToCore(motor_task_func, "MotorTask", 2048, nullptr, 1, &motor_task, 1);
+  xTaskCreatePinnedToCore(motor_task_func, "MotorTask", 2048, nullptr, 1, &motor_task, 0);
 }
 
 void loop() {
