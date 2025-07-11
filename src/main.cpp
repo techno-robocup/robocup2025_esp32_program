@@ -125,7 +125,7 @@ void loop() {
   } else if (message.startsWith("GET button")) {
     const char* status = readbutton() ? "ON" : "OFF";
     serial.sendMessage(Message(msg.getId(), status));
-  } else if (message.startsWith("ULTRASONIC ")) {
+  } else if (message.startsWith("GET ultrasonic ")) {
     serial.sendMessage(Message(msg.getId(), String(ultrasonic_values[0]) + " " +
                                                 String(ultrasonic_values[1]) + " " +
                                                 String(ultrasonic_values[2])));
