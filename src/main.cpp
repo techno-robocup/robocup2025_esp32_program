@@ -3,6 +3,7 @@
 #include "motorio.hpp"
 #include "mutex_guard.hpp"
 #include "serial_io.hpp"
+#include "ultrasonic_io.hpp"
 SerialIO serial;
 
 constexpr int tyre_1 = 13, tyre_2 = 14, tyre_3 = 15, tyre_4 = 16;
@@ -10,11 +11,19 @@ constexpr int button_pin = 21;
 constexpr int arm_feedback = 34, arm_pulse = 17;
 constexpr int wire_SIG = 32;
 constexpr int tyre_interval = 40;
+constexpr int ultrasonic_trig1 = 18, ultrasonic_echo1 = 19,
+              ultrasonic_trig2 = 22, ultrasonic_echo2 = 23,
+              ultrasonic_trig3 = 26, ultrasonic_echo3 = 27;
 
 // Fixed array size to match actual usage (4 motors, not 2)
 int tyre_values[4] = {1500, 1500, 1500, 1500};
 int arm_value = 0;
 bool wire = false;
+
+long ultrasonic_values[3] = {0, 0, 0};
+UltrasonicIO ultrasonic_1(ultrasonic_trig1, ultrasonic_echo1),
+            ultrasonic_2(ultrasonic_trig2, ultrasonic_echo2),
+            ultrasonic_3(ultrasonic_trig3, ultrasonic_echo3);
 
 MOTORIO tyre_1_motor(tyre_1, tyre_interval), tyre_2_motor(tyre_2, tyre_interval),
     tyre_3_motor(tyre_3, tyre_interval), tyre_4_motor(tyre_4, tyre_interval);
@@ -86,6 +95,8 @@ void setup() {
   xTaskCreatePinnedToCore(motor_task_func, "MotorTask", 2048, nullptr, 1, &motor_task, 0);
 }
 
+int ultrasonic_clock = 0;
+
 void loop() {
   if (!serial.isMessageAvailable()) return;
 
@@ -115,5 +126,21 @@ void loop() {
   } else if (message.startsWith("GET button")) {
     const char* status = readbutton() ? "ON" : "OFF";
     serial.sendMessage(Message(msg.getId(), status));
+  }
+  else if (message.startsWith("ULTRASONIC ")) {
+    serial.sendMessage(Message(msg.getId(), String(ultrasonic_values[0]) + " " + String(ultrasonic_values[1]) + " " + String(ultrasonic_values[2])));
+  }
+  ++ultrasonic_clock;
+  if (ultrasonic_clock % 3 == 0){
+    ultrasonic_1.read(&ultrasonic_values[0]);
+    ultrasonic_clock = 0;
+  }
+  else if(ultrasonic_clock % 3 == 1){
+    ultrasonic_2.read(&ultrasonic_values[1]);
+    ultrasonic_clock = 1;
+  }
+  else if(ultrasonic_clock % 3 == 2){
+    ultrasonic_3.read(&ultrasonic_values[2]);
+    ultrasonic_clock = 2;
   }
 }
