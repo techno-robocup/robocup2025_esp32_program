@@ -15,11 +15,11 @@ constexpr int ultrasonic_trig1 = 18, ultrasonic_echo1 = 19, ultrasonic_trig2 = 2
               ultrasonic_echo2 = 23, ultrasonic_trig3 = 26, ultrasonic_echo3 = 27;
 
 // Fixed array size to match actual usage (4 motors, not 2)
-int tyre_values[4] = {1500, 1500, 1500, 1500};
-int arm_value = 0;
-bool wire = false;
+static int tyre_values[4] = {1500, 1500, 1500, 1500};
+static int arm_value = 0;
+static bool wire = false;
 
-long ultrasonic_values[3] = {0, 0, 0};
+static long ultrasonic_values[3] = {0, 0, 0};
 UltrasonicIO ultrasonic_1(ultrasonic_trig1, ultrasonic_echo1),
     ultrasonic_2(ultrasonic_trig2, ultrasonic_echo2),
     ultrasonic_3(ultrasonic_trig3, ultrasonic_echo3);
@@ -108,10 +108,11 @@ void loop() {
       // TODO: Fix legacy code for assuming 2 motor values
       tyre_values[2] = tyre_values[0];
       tyre_values[3] = tyre_values[1];
-      // TODO: Optimize code wihout concatenating strings
-      serial.sendMessage(
-          Message(msg.getId(), "OK " + String(tyre_values[0]) + " " + String(tyre_values[1]) + " " +
-                                   String(tyre_values[2]) + " " + String(tyre_values[3])));
+      // Optimized: Use char buffer instead of String concatenation
+      char response[64];
+      snprintf(response, sizeof(response), "OK %d %d %d %d", 
+               tyre_values[0], tyre_values[1], tyre_values[2], tyre_values[3]);
+      serial.sendMessage(Message(msg.getId(), String(response)));
     }
   } else if (message.startsWith("Rescue ")) {
     const char* rescue_data = message.c_str() + 7;  // Skip "Rescue "
@@ -126,19 +127,22 @@ void loop() {
     const char* status = readbutton() ? "ON" : "OFF";
     serial.sendMessage(Message(msg.getId(), status));
   } else if (message.startsWith("GET ultrasonic")) {
-    serial.sendMessage(Message(msg.getId(), String(ultrasonic_values[0]) + " " +
-                                                String(ultrasonic_values[1]) + " " +
-                                                String(ultrasonic_values[2])));
+    // Optimized: Use char buffer instead of String concatenation
+    char response[64];
+    snprintf(response, sizeof(response), "%ld %ld %ld", 
+             ultrasonic_values[0], ultrasonic_values[1], ultrasonic_values[2]);
+    serial.sendMessage(Message(msg.getId(), String(response)));
   }
   ++ultrasonic_clock;
-  if (ultrasonic_clock % 3 == 0) {
-    ultrasonic_1.read(&ultrasonic_values[0]);
+  if (ultrasonic_clock >= 3) {
     ultrasonic_clock = 0;
-  } else if (ultrasonic_clock % 3 == 1) {
+  }
+  
+  if (ultrasonic_clock == 0) {
+    ultrasonic_1.read(&ultrasonic_values[0]);
+  } else if (ultrasonic_clock == 1) {
     ultrasonic_2.read(&ultrasonic_values[1]);
-    ultrasonic_clock = 1;
-  } else if (ultrasonic_clock % 3 == 2) {
+  } else if (ultrasonic_clock == 2) {
     ultrasonic_3.read(&ultrasonic_values[2]);
-    ultrasonic_clock = 2;
   }
 }
