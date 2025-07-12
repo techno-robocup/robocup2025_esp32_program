@@ -110,8 +110,8 @@ void loop() {
       tyre_values[3] = tyre_values[1];
       // Optimized: Use char buffer instead of String concatenation
       char response[64];
-      snprintf(response, sizeof(response), "OK %d %d %d %d", 
-               tyre_values[0], tyre_values[1], tyre_values[2], tyre_values[3]);
+      snprintf(response, sizeof(response), "OK %d %d %d %d", tyre_values[0], tyre_values[1],
+               tyre_values[2], tyre_values[3]);
       serial.sendMessage(Message(msg.getId(), String(response)));
     }
   } else if (message.startsWith("Rescue ")) {
@@ -129,15 +129,15 @@ void loop() {
   } else if (message.startsWith("GET ultrasonic")) {
     // Optimized: Use char buffer instead of String concatenation
     char response[64];
-    snprintf(response, sizeof(response), "%ld %ld %ld", 
-             ultrasonic_values[0], ultrasonic_values[1], ultrasonic_values[2]);
+    snprintf(response, sizeof(response), "%ld %ld %ld", ultrasonic_values[0], ultrasonic_values[1],
+             ultrasonic_values[2]);
     serial.sendMessage(Message(msg.getId(), String(response)));
   }
   ++ultrasonic_clock;
   if (ultrasonic_clock >= 3) {
     ultrasonic_clock = 0;
   }
-  
+
   if (ultrasonic_clock == 0) {
     ultrasonic_1.read(&ultrasonic_values[0]);
   } else if (ultrasonic_clock == 1) {
