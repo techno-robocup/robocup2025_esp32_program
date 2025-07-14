@@ -153,7 +153,7 @@ void loop() {
              ultrasonic_values[2]);
     serial.sendMessage(Message(msg.getId(), String(response)));
   } else if (message.startsWith("Wire")) {
-    int val = message.charAt(5) - '0';
+    int val = message[5] - '0';
     arm.wire_tension_function(val != 0);
     char response[32];
     snprintf(response, sizeof(response), "Wire %d OK", val);
