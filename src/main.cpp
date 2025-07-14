@@ -154,6 +154,7 @@ void loop() {
              ultrasonic_values[2]);
     serial.sendMessage(Message(msg.getId(), String(response)));
   } else if (message.startsWith("Wire")) {
+    char response[32];
     int val = message[5] - '0';
     if (val == 0) {
       wire_motor.run_msec(500);
