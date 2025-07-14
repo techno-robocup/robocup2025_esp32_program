@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <cassert>
+#include "armio.hpp"
 #include "motorio.hpp"
 #include "mutex_guard.hpp"
 #include "serial_io.hpp"
@@ -26,6 +27,8 @@ UltrasonicIO ultrasonic_1(ultrasonic_trig1, ultrasonic_echo1),
 
 MOTORIO tyre_1_motor(tyre_1, tyre_interval), tyre_2_motor(tyre_2, tyre_interval),
     tyre_3_motor(tyre_3, tyre_interval), tyre_4_motor(tyre_4, tyre_interval);
+
+ARMIO arm(arm_pulse, arm_feedback, wire_SIG);
 
 inline int readbutton() { return digitalRead(button_pin); }
 
@@ -92,6 +95,8 @@ void setup() {
   - Core ID
   */
   xTaskCreatePinnedToCore(motor_task_func, "MotorTask", 2048, nullptr, 1, &motor_task, 0);
+  arm.arm_set_position(2000);
+  arm.wire_tension_function(true);
 }
 
 int ultrasonic_clock = 0;
