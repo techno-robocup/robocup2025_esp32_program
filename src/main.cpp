@@ -147,5 +147,11 @@ void loop() {
     snprintf(response, sizeof(response), "%ld %ld %ld", ultrasonic_values[0], ultrasonic_values[1],
              ultrasonic_values[2]);
     serial.sendMessage(Message(msg.getId(), String(response)));
+  } else if (message.startsWith("Wire")) {
+    int val = message.charAt(5) - '0';
+    arm.wire_tension_function(val != 0);
+    char response[32];
+    snprintf(response, sizeof(response), "Wire %d OK", val);
+    serial.sendMessage(Message(msg.getId(), String(response)));
   }
 }
