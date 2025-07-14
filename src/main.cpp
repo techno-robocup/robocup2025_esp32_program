@@ -27,7 +27,7 @@ UltrasonicIO ultrasonic_1(ultrasonic_trig1, ultrasonic_echo1),
 
 MOTORIO tyre_1_motor(tyre_1, tyre_interval), tyre_2_motor(tyre_2, tyre_interval),
     tyre_3_motor(tyre_3, tyre_interval), tyre_4_motor(tyre_4, tyre_interval),
-    wire_motor(wire_SIG, 15);
+    wire_motor(wire_SIG, 15000);
 
 ARMIO arm(arm_pulse, arm_feedback, wire_SIG);
 
