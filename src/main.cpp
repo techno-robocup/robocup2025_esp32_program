@@ -97,6 +97,21 @@ void setup() {
 int ultrasonic_clock = 0;
 
 void loop() {
+  // Always read ultrasonic sensors regardless of serial communication
+  ++ultrasonic_clock;
+  if (ultrasonic_clock >= 3) {
+    ultrasonic_clock = 0;
+  }
+
+  if (ultrasonic_clock == 0) {
+    ultrasonic_1.read(&ultrasonic_values[0]);
+  } else if (ultrasonic_clock == 1) {
+    ultrasonic_2.read(&ultrasonic_values[1]);
+  } else if (ultrasonic_clock == 2) {
+    ultrasonic_3.read(&ultrasonic_values[2]);
+  }
+
+  // Check for serial messages
   if (!serial.isMessageAvailable()) return;
 
   Message msg = serial.receiveMessage();
@@ -132,17 +147,5 @@ void loop() {
     snprintf(response, sizeof(response), "%ld %ld %ld", ultrasonic_values[0], ultrasonic_values[1],
              ultrasonic_values[2]);
     serial.sendMessage(Message(msg.getId(), String(response)));
-  }
-  ++ultrasonic_clock;
-  if (ultrasonic_clock >= 3) {
-    ultrasonic_clock = 0;
-  }
-
-  if (ultrasonic_clock == 0) {
-    ultrasonic_1.read(&ultrasonic_values[0]);
-  } else if (ultrasonic_clock == 1) {
-    ultrasonic_2.read(&ultrasonic_values[1]);
-  } else if (ultrasonic_clock == 2) {
-    ultrasonic_3.read(&ultrasonic_values[2]);
   }
 }
