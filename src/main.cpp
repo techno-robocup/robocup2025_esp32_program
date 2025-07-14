@@ -156,7 +156,7 @@ void loop() {
   } else if (message.startsWith("Wire")) {
     int val = message[5] - '0';
     if (val == 0) {
-      wire_motor.run_msec(500)
+      wire_motor.run_msec(500);
     } else {
       wire_motor.run_msec(2400);
     }
