@@ -156,11 +156,11 @@ void loop() {
     serial.sendMessage(Message(msg.getId(), String(response)));
   } else if (message.startsWith("Wire")) {
     char response[32];
-    int val = message[5];
-    if (val == '0') {
-      arm.wire_tension_function(false);
+    int val = message[5] - '0';
+    if (val == 0) {
+      wire_motor.run_msec(500);
     } else {
-      arm.wire_tension_function(true);
+      wire_motor.run_msec(2400);
     }
     snprintf(response, sizeof(response), "Wire %d OK", val);
     serial.sendMessage(Message(msg.getId(), String(response)));
