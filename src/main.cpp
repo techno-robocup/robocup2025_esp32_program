@@ -98,6 +98,8 @@ void setup() {
   xTaskCreatePinnedToCore(motor_task_func, "MotorTask", 2048, nullptr, 1, &motor_task, 0);
   arm.arm_set_position(2000);
   arm.wire_tension_function(true);
+  ledcSetup(arm.SERVO_CH, arm.PWM_FREQ, arm.PWM_RES);
+  ledcAttachPin(arm.SERVO_PIN, arm.SERVO_CH);
 }
 
 int ultrasonic_clock = 0;
