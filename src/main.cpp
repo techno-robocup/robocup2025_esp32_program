@@ -7,6 +7,7 @@
 #include "ultrasonic_io.hpp"
 SerialIO serial;
 
+/* left right left right */
 constexpr int tyre_1 = 13, tyre_2 = 14, tyre_3 = 15, tyre_4 = 16;
 constexpr int button_pin = 21;
 constexpr int arm_feedback = 34, arm_pulse = 17;
