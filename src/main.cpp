@@ -48,6 +48,13 @@ void motor_task_func(void* arg) {
   }
 }
 
+void stop_all_motor() {
+  tyre_values[0] = 1500;
+  tyre_values[1] = 1500;
+  tyre_values[2] = 1500;
+  tyre_values[3] = 1500;
+}
+
 // Optimized string parsing without String operations
 bool parseMotorCommand(const char* message, int* values, int max_values) {
   assert(max_values == 2);
@@ -148,6 +155,7 @@ void loop() {
     }
   } else if (message.startsWith("GET button")) {
     const char* status = readbutton() ? "ON" : "OFF";
+    if (status == "OFF") stop_all_motor();
     serial.sendMessage(Message(msg.getId(), status));
   } else if (message.startsWith("GET ultrasonic")) {
     // Optimized: Use char buffer instead of String concatenation
