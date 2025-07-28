@@ -138,8 +138,9 @@ void loop() {
     const char* motor_data = message.c_str() + 6;  // Skip "MOTOR "
     if (parseMotorCommand(motor_data, tyre_values, 2)) {
       // TODO: Fix legacy code for assuming 2 motor values
-      tyre_values[2] = 1500 - (tyre_values[0] - 1500);
-      tyre_values[3] = 1500 - (tyre_values[1] - 1500);
+      tyre_values[2] = tyre_values[0];
+      tyre_values[1] = 1500 - (tyre_values[1] - 1500);
+      tyre_values[3] = tyre_values[1];
       // Optimized: Use char buffer instead of String concatenation
       char response[64];
       snprintf(response, sizeof(response), "OK %d %d %d %d", tyre_values[0], tyre_values[1],
