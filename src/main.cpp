@@ -42,8 +42,6 @@ void motor_task_func(void* arg) {
     MutexGuard guard(motor_sem);
     tyre_1_motor.run_msec(tyre_values[0]);
     tyre_2_motor.run_msec(tyre_values[1]);
-    tyre_values[2] = 1500 - (tyre_values[2] - 1500);  // NOTE: Right motor value. 1700 -> 1300
-    tyre_values[3] = 1500 - (tyre_values[3] - 1500);
     tyre_3_motor.run_msec(tyre_values[2]);
     tyre_4_motor.run_msec(tyre_values[3]);
     vTaskDelay(pdMS_TO_TICKS(2));
@@ -139,6 +137,7 @@ void loop() {
     if (parseMotorCommand(motor_data, tyre_values, 2)) {
       // TODO: Fix legacy code for assuming 2 motor values
       tyre_values[2] = tyre_values[0];
+      tyre_values[3] = 1500 - (tyre_values[3] - 1500);
       tyre_values[3] = tyre_values[1];
       // Optimized: Use char buffer instead of String concatenation
       char response[64];
