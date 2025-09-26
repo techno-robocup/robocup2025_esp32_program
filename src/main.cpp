@@ -50,6 +50,12 @@ void motor_task_func(void* arg) {
   }
 }
 
+void arm_task_func() {
+  arm.arm_set_position(arm_value);
+  arm.wire_tension_function(wire);
+  arm.updatePID();
+}
+
 void stop_all_motor() {
   tyre_values[0] = 1500;
   tyre_values[1] = 1500;
@@ -107,7 +113,7 @@ void setup() {
   */
   xTaskCreatePinnedToCore(motor_task_func, "MotorTask", 2048, nullptr, 1, &motor_task, 0);
   arm.arm_set_position(2000);
-  arm.wire_tension_function(true);
+  arm.wire_tension_function(false);
   arm.init_pwm();
 }
 
