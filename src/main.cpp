@@ -133,6 +133,7 @@ void loop() {
   } else if (ultrasonic_clock == 2) {
     ultrasonic_3.read(&ultrasonic_values[2]);
   }
+  arm.updatePID();
 
   // Check for serial messages
   if (!serial.isMessageAvailable()) return;
@@ -161,6 +162,7 @@ void loop() {
       strncpy(angle_str, rescue_data, 4);
       arm_value = atoi(angle_str);
       wire = (rescue_data[4] == '1');
+      arm.arm_set_position(arm_value);
     }
   } else if (message.startsWith("GET button")) {
     const char* status = readbutton() ? "ON" : "OFF";
@@ -171,16 +173,6 @@ void loop() {
     char response[64];
     snprintf(response, sizeof(response), "%ld %ld %ld", ultrasonic_values[0], ultrasonic_values[1],
              ultrasonic_values[2]);
-    serial.sendMessage(Message(msg.getId(), String(response)));
-  } else if (message.startsWith("Wire")) {
-    char response[32];
-    int val = message[5] - '0';
-    if (val == 0) {
-      wire_motor.run_msec(500);
-    } else {
-      wire_motor.run_msec(2400);
-    }
-    snprintf(response, sizeof(response), "Wire %d OK", val);
     serial.sendMessage(Message(msg.getId(), String(response)));
   }
 }
