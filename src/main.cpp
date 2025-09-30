@@ -163,6 +163,9 @@ void loop() {
       arm_value = atoi(angle_str);
       wire = (rescue_data[4] == '1');
       arm.arm_set_position(arm_value);
+      char response[64];
+      snprintf(response, sizeof(response), "OK %d %d", arm_value, (int)wire);
+      serial.sendMessage(Message(msg.getId(), String(response)));
     }
   } else if (message.startsWith("GET button")) {
     const char* status = readbutton() ? "ON" : "OFF";
