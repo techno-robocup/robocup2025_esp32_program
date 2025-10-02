@@ -159,7 +159,7 @@ void loop() {
     if (strlen(rescue_data) >= 5) {
       // Parse arm_angle (4 digits) and wire (1 digit)
       char angle_str[5] = {0, 0, 0, 0, 0};
-      strncpy(angle_str, rescue_data, 4);
+      strncpy(angle_str, rescue_data, 5);
       arm_value = atoi(angle_str);
       wire = (rescue_data[4] == '1');
       arm.arm_set_position(arm_value);
