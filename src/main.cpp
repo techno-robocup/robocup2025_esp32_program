@@ -165,7 +165,7 @@ void loop() {
     }
   } else if (message.startsWith("GET button")) {
     const char* status = readbutton() ? "ON" : "OFF";
-    if (status == "OFF") stop_all_motor();
+    if (strcmp(status, "OFF") == 0) stop_all_motor();
     serial.sendMessage(Message(msg.getId(), status));
   } else if (message.startsWith("GET ultrasonic")) {
     snprintf(response, sizeof(response), "%ld %ld %ld", ultrasonic_values[0], ultrasonic_values[1],
