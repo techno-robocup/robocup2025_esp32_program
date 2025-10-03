@@ -51,7 +51,7 @@ The codebase is organized into modular libraries in `lib/` directory:
 `src/main.cpp` implements:
 
 - **Multi-tasking**: Uses FreeRTOS tasks for concurrent motor control
-- **Serial Protocol**: Command parsing for MOTOR, Rescue, GET button, GET ultrasonic, and Wire commands
+- **Serial Protocol**: Command parsing for MOTOR, Rescue, GET button, and GET ultrasonic commands
 - **Sensor Management**: Round-robin ultrasonic sensor reading
 - **Emergency Stop**: Button-based emergency stop functionality
 
@@ -62,7 +62,6 @@ The robot accepts these serial commands:
 - `Rescue <aaaa><w>`: Set arm angle (4 digits) and wire state (1 digit)
 - `GET button`: Read emergency stop button state
 - `GET ultrasonic`: Get all 3 ultrasonic sensor readings
-- `Wire <0|1>`: Control wire motor (0=retract, 1=extend)
 
 ## Code Style & Formatting
 
