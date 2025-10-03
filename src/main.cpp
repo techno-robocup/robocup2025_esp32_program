@@ -51,7 +51,6 @@ void motor_task_func(void* arg) {
 }
 
 void arm_task_func() {
-  arm.arm_set_position(arm_value);
   arm.wire_tension_function(wire);
   arm.updatePID();
 }
@@ -133,7 +132,7 @@ void loop() {
   } else if (ultrasonic_clock == 2) {
     ultrasonic_3.read(&ultrasonic_values[2]);
   }
-  arm.updatePID();
+  arm_task_func();
 
   // Check for serial messages
   if (!serial.isMessageAvailable()) return;
