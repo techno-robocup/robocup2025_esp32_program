@@ -117,7 +117,7 @@ void setup() {
 }
 
 int ultrasonic_clock = 0;
-
+char response[64];
 void loop() {
   // Always read ultrasonic sensors regardless of serial communication
   ++ultrasonic_clock;
@@ -147,8 +147,6 @@ void loop() {
       tyre_values[2] = tyre_values[0];
       tyre_values[1] = 1500 - (tyre_values[1] - 1500);
       tyre_values[3] = tyre_values[1];
-      // Optimized: Use char buffer instead of String concatenation
-      char response[64];
       snprintf(response, sizeof(response), "OK %d %d %d %d", tyre_values[0], tyre_values[1],
                tyre_values[2], tyre_values[3]);
       serial.sendMessage(Message(msg.getId(), String(response)));
@@ -163,7 +161,6 @@ void loop() {
       wire = (rescue_data[4] == '1');
       arm.arm_set_position(arm_value);
       arm.wire_tension_function(wire);
-      char response[64];
       snprintf(response, sizeof(response), "OK %d %d", arm_value, (int)wire);
       serial.sendMessage(Message(msg.getId(), String(response)));
     }
@@ -172,8 +169,6 @@ void loop() {
     if (status == "OFF") stop_all_motor();
     serial.sendMessage(Message(msg.getId(), status));
   } else if (message.startsWith("GET ultrasonic")) {
-    // Optimized: Use char buffer instead of String concatenation
-    char response[64];
     snprintf(response, sizeof(response), "%ld %ld %ld", ultrasonic_values[0], ultrasonic_values[1],
              ultrasonic_values[2]);
     serial.sendMessage(Message(msg.getId(), String(response)));
