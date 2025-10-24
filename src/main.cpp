@@ -137,7 +137,7 @@ void loop() {
   if (!serial.isMessageAvailable()) return;
 
   Message msg = serial.receiveMessage();
-  const String& message = msg.getMessage();
+  String message = msg.getMessage();
 
   if (message.startsWith("MOTOR ")) {
     const char* motor_data = message.c_str() + 6;  // Skip "MOTOR "
