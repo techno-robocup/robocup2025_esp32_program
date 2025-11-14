@@ -147,6 +147,9 @@ void loop() {
   // Check for serial messages
   if (!serial.isMessageAvailable()) return;
 
+
+  last_motor_command_time = millis();
+
   Message msg = serial.receiveMessage();
   String message = msg.getMessage();
 
@@ -157,7 +160,6 @@ void loop() {
       tyre_values[2] = tyre_values[0];
       tyre_values[1] = 1500 - (tyre_values[1] - 1500);
       tyre_values[3] = tyre_values[1];
-      last_motor_command_time = millis();
       snprintf(response, sizeof(response), "OK %d %d %d %d", tyre_values[0], tyre_values[1],
                tyre_values[2], tyre_values[3]);
       serial.sendMessage(Message(msg.getId(), String(response)));
