@@ -117,6 +117,9 @@ void setup() {
 
 int ultrasonic_clock = 0;
 char response[64];
+unsigned long last_motor_command_time = 0;
+constexpr unsigned long motor_timeout_ms = 500;
+
 void loop() {
   // Always read ultrasonic sensors regardless of serial communication
   ++ultrasonic_clock;
@@ -133,6 +136,14 @@ void loop() {
   }
   arm_task_func();
 
+  // Check motor timeout
+  if (millis() - last_motor_command_time > motor_timeout_ms) {
+    tyre_values[0] = 1500;
+    tyre_values[1] = 1500;
+    tyre_values[2] = 1500;
+    tyre_values[3] = 1500;
+  }
+
   // Check for serial messages
   if (!serial.isMessageAvailable()) return;
 
@@ -146,6 +157,7 @@ void loop() {
       tyre_values[2] = tyre_values[0];
       tyre_values[1] = 1500 - (tyre_values[1] - 1500);
       tyre_values[3] = tyre_values[1];
+      last_motor_command_time = millis();
       snprintf(response, sizeof(response), "OK %d %d %d %d", tyre_values[0], tyre_values[1],
                tyre_values[2], tyre_values[3]);
       serial.sendMessage(Message(msg.getId(), String(response)));
