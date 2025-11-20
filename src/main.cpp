@@ -147,7 +147,6 @@ void loop() {
   // Check for serial messages
   if (!serial.isMessageAvailable()) return;
 
-
   last_motor_command_time = millis();
 
   Message msg = serial.receiveMessage();
